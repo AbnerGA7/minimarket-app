@@ -23,7 +23,8 @@ public partial class Lote
 
     public int StockActual { get; set; }
 
-    public bool? Estado { get; set; }
+    // CORRECCIÓN AQUÍ: Se quitó el '?' para que sea obligatorio (True/False)
+    public bool Estado { get; set; }
 
     public virtual ICollection<DetalleVentum> DetalleVenta { get; set; } = new List<DetalleVentum>();
 

@@ -1,0 +1,82 @@
+﻿@model MinimarketApp.Models.Lote
+
+@{
+    ViewData["Title"] = "Eliminar Lote";
+}
+
+<h1 class="text-danger">Dar de Baja Lote</h1>
+
+<h3>¿Estás seguro de que deseas eliminar este registro?</h3>
+<div class="alert alert-warning">
+    <strong>⚠️ Cuidado:</strong> Al eliminar este lote, el <strong>Stock Actual (@Model.StockActual)</strong> desaparecerá del inventario inmediatamente.
+    <br />
+    Solo elimínalo si fue un error de registro. Si el producto se rompió o venció, es mejor usar el módulo de Mermas (futuro).
+</div>
+
+<div>
+    <h4>Datos del Ingreso</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Producto
+        </dt>
+        <dd class="col-sm-10 font-weight-bold">
+            @Html.DisplayFor(model => model.IdProductoNavigation.Nombre)
+        </dd>
+
+        <dt class="col-sm-2">
+            Proveedor
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdProveedorNavigation.RazonSocial)
+        </dd>
+
+        <dt class="col-sm-2">
+            N° Lote
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumeroLote)
+        </dd>
+
+        <dt class="col-sm-2">
+            Fecha Vencimiento
+        </dt>
+        <dd class="col-sm-10 text-danger">
+            @Model.FechaVencimiento.ToShortDateString()
+        </dd>
+
+        <dt class="col-sm-2">
+            Fecha Recepción
+        </dt>
+        <dd class="col-sm-10">
+            @Model.FechaRecepcion?.ToShortDateString()
+        </dd>
+
+        <dt class="col-sm-2">
+            Costo Unitario
+        </dt>
+        <dd class="col-sm-10">
+            S/ @Html.DisplayFor(model => model.CostoCompraUnitario)
+        </dd>
+
+        <dt class="col-sm-2">
+            Stock Actual
+        </dt>
+        <dd class="col-sm-10 font-weight-bold">
+            @Html.DisplayFor(model => model.StockActual)
+        </dd>
+
+        <dt class="col-sm-2">
+            Estado
+        </dt>
+        <dd class="col-sm-10">
+            @(Model.Estado == true ? "Activo" : "Inactivo")
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdLote" />
+        <input type="submit" value="Confirmar Baja" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\minimarket-app",
+    "\\minimarket-app\\MinimarketSolution"
   ],
-  "SelectedNode": "\\MinimarketSolution.sln",
+  "SelectedNode": "\\minimarket-app\\MinimarketSolution\\MinimarketSolution.sln",
   "PreviewInSolutionExplorer": false
 }

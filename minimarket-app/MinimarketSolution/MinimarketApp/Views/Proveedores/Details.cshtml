@@ -1,48 +1,53 @@
 ﻿@model MinimarketApp.Models.Proveedore
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Proveedor";
 }
 
-<h1>Details</h1>
+<h1>Detalles del Proveedor</h1>
 
 <div>
-    <h4>Proveedore</h4>
+    <h4>Información Registrada</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RucDni)
+        <dt class="col-sm-2">
+            RUC / DNI
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RucDni)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RazonSocial)
+
+        <dt class="col-sm-2">
+            Razón Social
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RazonSocial)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Telefono)
+
+        <dt class="col-sm-2">
+            Teléfono
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Telefono)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
+
+        <dt class="col-sm-2">
+            Correo Electrónico
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Direccion)
+
+        <dt class="col-sm-2">
+            Dirección
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Direccion)
         </dd>
     </dl>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdProveedor">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model?.IdProveedor" class="btn btn-primary">Editar</a> |
+    <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
 </div>

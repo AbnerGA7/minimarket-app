@@ -1,0 +1,77 @@
+﻿@model IEnumerable<MinimarketApp.Models.Lote>
+
+@{
+    ViewData["Title"] = "Entrada de Mercadería";
+}
+
+<h1>Control de Lotes (Stock)</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Registrar Ingreso de Mercadería</a>
+</p>
+
+<table class="table table-hover table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th class="text-center">N° Lote</th>
+            <th class="text-center">Producto</th>
+            <th class="text-center">Proveedor</th>
+            <th class="text-center">Fecha Vencimiento</th>
+            <th class="text-center">Estado</th>
+            <th class="text-center">Stock Actual</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            // --- CORRECCIÓN DE LÓGICA ---
+            // 1. Convertimos 'Hoy' a DateOnly para que coincida con el tipo de dato de la base de datos
+            var hoy = DateOnly.FromDateTime(DateTime.Now);
+
+            // 2. Calculamos la diferencia en días usando DayNumber (la forma correcta para DateOnly)
+            var diasRestantes = item.FechaVencimiento.DayNumber - hoy.DayNumber;
+
+            string claseAlerta = "bg-success"; // Verde (OK)
+            string textoAlerta = "OK";
+
+            if (diasRestantes <= 0)
+            {
+                claseAlerta = "bg-danger"; // Rojo (Vencido)
+                textoAlerta = "VENCIDO";
+            }
+            else if (diasRestantes <= 30)
+            {
+                claseAlerta = "bg-warning text-dark"; // Amarillo (Por vencer)
+                textoAlerta = "POR VENCER";
+            }
+            // ---------------------------
+
+            <tr>
+                <td class="text-center font-weight-bold">
+                    @Html.DisplayFor(modelItem => item.NumeroLote)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProductoNavigation.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProveedorNavigation.RazonSocial)
+                </td>
+                <td class="text-center">
+                    @item.FechaVencimiento
+                </td>
+                <td class="text-center">
+                    <span class="badge @claseAlerta">@textoAlerta</span>
+                </td>
+                <td class="text-center" style="font-size: 1.2em; font-weight: bold;">
+                    @Html.DisplayFor(modelItem => item.StockActual)
+                </td>
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@item.IdLote" class="btn btn-primary btn-sm">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.IdLote" class="btn btn-info btn-sm">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdLote" class="btn btn-danger btn-sm">Baja</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

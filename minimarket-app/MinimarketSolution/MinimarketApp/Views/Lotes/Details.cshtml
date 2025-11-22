@@ -1,0 +1,89 @@
+﻿@model MinimarketApp.Models.Lote
+
+@{
+    ViewData["Title"] = "Detalles del Lote";
+}
+
+<h1>Detalles del Lote</h1>
+
+<div>
+    <h4>Información de Mercadería</h4>
+    <hr />
+    <dl class="row">
+
+        <dt class="col-sm-3">
+            Producto
+        </dt>
+        <dd class="col-sm-9 font-weight-bold">
+            @Html.DisplayFor(model => model.IdProductoNavigation.Nombre)
+        </dd>
+
+        <dt class="col-sm-3">
+            Proveedor
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IdProveedorNavigation.RazonSocial)
+        </dd>
+
+        <dt class="col-sm-3">
+            N° Lote
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.NumeroLote)
+        </dd>
+
+        <dt class="col-sm-3">
+            Fecha Vencimiento
+        </dt>
+        <dd class="col-sm-9 text-danger">
+            @Model.FechaVencimiento.ToShortDateString()
+        </dd>
+
+        <dt class="col-sm-3">
+            Fecha Recepción
+        </dt>
+        <dd class="col-sm-9">
+            @Model.FechaRecepcion?.ToShortDateString()
+        </dd>
+
+        <dt class="col-sm-3">
+            Costo Unitario
+        </dt>
+        <dd class="col-sm-9">
+            S/ @Html.DisplayFor(model => model.CostoCompraUnitario)
+        </dd>
+
+        <dt class="col-sm-3">
+            Cantidad Inicial
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CantidadInicial)
+        </dd>
+
+        <dt class="col-sm-3">
+            Stock Actual
+        </dt>
+        <dd class="col-sm-9" style="font-size: 1.2em; font-weight: bold;">
+            @Html.DisplayFor(model => model.StockActual)
+        </dd>
+
+        <dt class="col-sm-3">
+            Estado
+        </dt>
+        <dd class="col-sm-9">
+            @if (Model.Estado == true)
+            {
+                <span class="badge bg-success">Activo / Disponible</span>
+            }
+            else
+            {
+                <span class="badge bg-secondary">Inactivo / Agotado</span>
+            }
+        </dd>
+    </dl>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model?.IdLote" class="btn btn-primary">Editar</a> |
+    <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
+</div>

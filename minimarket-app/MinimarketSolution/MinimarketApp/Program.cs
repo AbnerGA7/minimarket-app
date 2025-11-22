@@ -1,4 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using MinimarketApp.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+// 1. Agregar los 'using' necesarios al inicio del archivo si no están:
+// using Microsoft.EntityFrameworkCore;
+// using MinimarketApp.Models;
+
+// 2. Inyectar el contexto de la base de datos
+builder.Services.AddDbContext<MinimarketContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

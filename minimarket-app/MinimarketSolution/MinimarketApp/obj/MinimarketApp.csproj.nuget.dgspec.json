@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\abner\\OneDrive\\Desktop\\minimarket-app\\MinimarketSolution\\MinimarketApp\\MinimarketApp.csproj": {}
+    "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\MinimarketApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\abner\\OneDrive\\Desktop\\minimarket-app\\MinimarketSolution\\MinimarketApp\\MinimarketApp.csproj": {
+    "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\MinimarketApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarket-app\\MinimarketSolution\\MinimarketApp\\MinimarketApp.csproj",
+        "projectUniqueName": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\MinimarketApp.csproj",
         "projectName": "MinimarketApp",
-        "projectPath": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarket-app\\MinimarketSolution\\MinimarketApp\\MinimarketApp.csproj",
+        "projectPath": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\MinimarketApp.csproj",
         "packagesPath": "C:\\Users\\abner\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarket-app\\MinimarketSolution\\MinimarketApp\\obj\\",
+        "outputPath": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,6 +50,28 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

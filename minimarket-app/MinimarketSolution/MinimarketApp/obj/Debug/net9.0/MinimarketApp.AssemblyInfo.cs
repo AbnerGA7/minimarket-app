@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MinimarketApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4043ab16e68caab2924e9c04d9b6ae809b33a519")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f060caefd861634f39d76e0ef1daca0370c4b05a")]
 [assembly: System.Reflection.AssemblyProductAttribute("MinimarketApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MinimarketApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

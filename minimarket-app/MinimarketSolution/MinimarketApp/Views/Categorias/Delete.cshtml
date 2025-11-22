@@ -1,0 +1,39 @@
+﻿@model MinimarketApp.Models.Categoria
+
+@{
+    ViewData["Title"] = "Eliminar Categoría";
+}
+
+<h1 class="text-danger">Eliminar Categoría</h1>
+
+<h3>¿Estás seguro de que deseas eliminar esto?</h3>
+<div class="alert alert-warning">
+    <strong>Advertencia:</strong> Si eliminas esta categoría, asegúrate de no tener productos asignados a ella, o podrían quedar huérfanos.
+</div>
+
+<div>
+    <h4>Datos de la Categoría</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Nombre
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt class="col-sm-2">
+            Descripción
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdCategoria" />
+
+        <input type="submit" value="Confirmar Eliminación" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

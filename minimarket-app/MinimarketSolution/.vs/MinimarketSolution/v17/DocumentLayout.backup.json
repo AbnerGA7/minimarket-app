@@ -1,0 +1,109 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{BDF346E4-ED3F-48CB-B004-5BAC907B6277}|MinimarketApp\\MinimarketApp.csproj|c:\\users\\abner\\onedrive\\desktop\\minimarketapp\\minimarket-app\\minimarketsolution\\minimarketapp\\views\\categorias\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BDF346E4-ED3F-48CB-B004-5BAC907B6277}|MinimarketApp\\MinimarketApp.csproj|solutionrelative:minimarketapp\\views\\categorias\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDF346E4-ED3F-48CB-B004-5BAC907B6277}|MinimarketApp\\MinimarketApp.csproj|c:\\users\\abner\\onedrive\\desktop\\minimarketapp\\minimarket-app\\minimarketsolution\\minimarketapp\\views\\categorias\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BDF346E4-ED3F-48CB-B004-5BAC907B6277}|MinimarketApp\\MinimarketApp.csproj|solutionrelative:minimarketapp\\views\\categorias\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDF346E4-ED3F-48CB-B004-5BAC907B6277}|MinimarketApp\\MinimarketApp.csproj|c:\\users\\abner\\onedrive\\desktop\\minimarketapp\\minimarket-app\\minimarketsolution\\minimarketapp\\views\\categorias\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BDF346E4-ED3F-48CB-B004-5BAC907B6277}|MinimarketApp\\MinimarketApp.csproj|solutionrelative:minimarketapp\\views\\categorias\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDF346E4-ED3F-48CB-B004-5BAC907B6277}|MinimarketApp\\MinimarketApp.csproj|c:\\users\\abner\\onedrive\\desktop\\minimarketapp\\minimarket-app\\minimarketsolution\\minimarketapp\\views\\categorias\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BDF346E4-ED3F-48CB-B004-5BAC907B6277}|MinimarketApp\\MinimarketApp.csproj|solutionrelative:minimarketapp\\views\\categorias\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BDF346E4-ED3F-48CB-B004-5BAC907B6277}|MinimarketApp\\MinimarketApp.csproj|c:\\users\\abner\\onedrive\\desktop\\minimarketapp\\minimarket-app\\minimarketsolution\\minimarketapp\\views\\categorias\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BDF346E4-ED3F-48CB-B004-5BAC907B6277}|MinimarketApp\\MinimarketApp.csproj|solutionrelative:minimarketapp\\views\\categorias\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Create.cshtml",
+              "DocumentMoniker": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\Views\\Categorias\\Create.cshtml",
+              "RelativeDocumentMoniker": "MinimarketApp\\Views\\Categorias\\Create.cshtml",
+              "ToolTip": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\Views\\Categorias\\Create.cshtml*",
+              "RelativeToolTip": "MinimarketApp\\Views\\Categorias\\Create.cshtml*",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAmwCYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-22T04:50:28.761Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Delete.cshtml",
+              "DocumentMoniker": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\Views\\Categorias\\Delete.cshtml",
+              "RelativeDocumentMoniker": "MinimarketApp\\Views\\Categorias\\Delete.cshtml",
+              "ToolTip": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\Views\\Categorias\\Delete.cshtml*",
+              "RelativeToolTip": "MinimarketApp\\Views\\Categorias\\Delete.cshtml*",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAmwCYAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-22T04:50:21.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\Views\\Categorias\\Details.cshtml",
+              "RelativeDocumentMoniker": "MinimarketApp\\Views\\Categorias\\Details.cshtml",
+              "ToolTip": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\Views\\Categorias\\Details.cshtml*",
+              "RelativeToolTip": "MinimarketApp\\Views\\Categorias\\Details.cshtml*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAmwB4AAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-22T04:49:46.634Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\Views\\Categorias\\Edit.cshtml",
+              "RelativeDocumentMoniker": "MinimarketApp\\Views\\Categorias\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\Views\\Categorias\\Edit.cshtml*",
+              "RelativeToolTip": "MinimarketApp\\Views\\Categorias\\Edit.cshtml*",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAmwCgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-22T04:49:13.286Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\Views\\Categorias\\Index.cshtml",
+              "RelativeDocumentMoniker": "MinimarketApp\\Views\\Categorias\\Index.cshtml",
+              "ToolTip": "C:\\Users\\abner\\OneDrive\\Desktop\\minimarketapp\\minimarket-app\\MinimarketSolution\\MinimarketApp\\Views\\Categorias\\Index.cshtml",
+              "RelativeToolTip": "MinimarketApp\\Views\\Categorias\\Index.cshtml",
+              "ViewState": "AgIAABAAAAAAAAAAAAAmwCYAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-22T04:48:05.482Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MinimarketApp.Models.Proveedore>
+
+@{
+    ViewData["Title"] = "Proveedores";
+}
+
+<h1>Listado de Proveedores</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Registrar Nuevo Proveedor</a>
+</p>
+
+<table class="table table-hover table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th class="text-center">RUC / DNI</th>
+            <th class="text-center">Razón Social</th>
+            <th class="text-center">Teléfono</th>
+            <th class="text-center">Correo</th>
+            <th class="text-center">Dirección</th>
+            <th class="text-center">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.RucDni)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RazonSocial)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Direccion)
+                </td>
+                <td class="text-center" style="width: 250px;">
+                    <a asp-action="Edit" asp-route-id="@item.IdProveedor" class="btn btn-primary btn-sm">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.IdProveedor" class="btn btn-info btn-sm">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdProveedor" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

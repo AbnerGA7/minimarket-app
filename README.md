@@ -44,13 +44,14 @@ Si deseas probar este proyecto en tu máquina local, sigue estas instrucciones d
 Abre tu terminal (Git Bash o CMD) y ejecuta:
 
 ```bash
-git clone [https://github.com/AbnerGA7/minimarket-app.git](https://github.com/AbnerGA7/minimarket-app.git)
-2. Configurar la Base de Datos 🗄️
+git clone [https://github.com/AbnerGA7/minimarket-app.git]
+ ```
 El proyecto incluye el script necesario para crear la base de datos automáticamente.
 
 Ve a la carpeta Database/ dentro de este repositorio.
 
-Abre el archivo Script_Minimarket.sql.
+Abre el archivo  
+```Script_Minimarket.sql. ```
 
 Copia todo el contenido.
 
@@ -85,12 +86,15 @@ El navegador se abrirá automáticamente en https://localhost:TU_PUERTO.
 
 ¡Listo! Ya puedes navegar por los módulos de Categorías, Productos y Proveedores.
 
+----------------------------------------------------------------------------------
+
 📝 Comandos Útiles para Desarrolladores
 Si realizas cambios en la Base de Datos y necesitas actualizar el código C# (Modelos), usa este comando en la consola del Administrador de Paquetes:
 
 PowerShell
-
+ ```
 dotnet ef dbcontext scaffold "Server=.\SQLEXPRESS;Database=minimarket-app;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -c MinimarketContext --force
+ ```
 👤 Autor
 Desarrollado por Abner Gonzales. Estudiante de Ingeniería de Software.
 
@@ -102,3 +106,4 @@ Una vez que hayas guardado el archivo SQL en la carpeta y actualizado el README,
 git add .
 git commit -m "Agregado README profesional y Script de Base de Datos"
 git push origin main
+ ```

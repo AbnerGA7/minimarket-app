@@ -1,109 +1,100 @@
-# 🛒 Sistema de Gestión Minimarket (POS Web Local)
+# 🛒 **Sistema de Gestión para Minimarket (POS Web Local)**
 
-![Estado](https://img.shields.io/badge/Estado-En_Desarrollo-orange?style=for-the-badge)
-![.NET](https://img.shields.io/badge/.NET_Core-8.0-purple?style=for-the-badge&logo=dotnet)
-![SQL Server](https://img.shields.io/badge/SQL_Server-Express-red?style=for-the-badge&logo=microsoft-sql-server)
-![Bootstrap](https://img.shields.io/badge/Frontend-Bootstrap_5-blue?style=for-the-badge&logo=bootstrap)
-![License](https://img.shields.io/badge/Licencia-MIT-green?style=for-the-badge)
+<p align="center">
+  <img src="https://img.shields.io/badge/Estado-En_Desarrollo-orange?style=for-the-badge">
+  <img src="https://img.shields.io/badge/.NET_Core-8.0-purple?style=for-the-badge&logo=dotnet">
+  <img src="https://img.shields.io/badge/SQL_Server-Express-red?style=for-the-badge&logo=microsoft-sql-server">
+  <img src="https://img.shields.io/badge/Frontend-Bootstrap_5-blue?style=for-the-badge&logo=bootstrap">
+  <img src="https://img.shields.io/badge/Licencia-MIT-green?style=for-the-badge">
+</p>
 
-Sistema integral para la gestión de inventario, proveedores y ventas de un Minimarket. Desarrollado como una **Aplicación Web Local (Intranet)** utilizando tecnología ASP.NET Core MVC y SQL Server.
+Sistema integral para la gestión de inventario, proveedores y ventas de un minimarket.  
+Desarrollado como **Aplicación Web Local (Intranet)** con **ASP.NET Core MVC**, **Entity Framework Core** y **SQL Server**.
 
-El sistema se enfoca en resolver problemas críticos como el control de vencimientos (FIFO), gestión de lotes y rapidez en el punto de venta.
-
----
-
-## 🚀 Módulos y Funcionalidades
-
-### ✅ Funcionalidades Activas
-* **📦 Gestión de Categorías:** Clasificación organizada de productos (Abarrotes, Bebidas, etc.).
-* **🏷️ Maestro de Productos:** Registro completo con código de barras, precios y unidades de medida (KG/UNIDAD).
-* **🚛 Gestión de Proveedores:** Directorio de empresas proveedoras con validación de RUC y datos de contacto.
-* **🛡️ Validaciones:** Sistema robusto que impide el ingreso de datos incompletos o erróneos.
-
-### 🚧 Próximas Implementaciones
-* **Entrada de Mercadería (Lotes):** Control de stock real y fechas de vencimiento.
-* **Punto de Venta (POS):** Interfaz de caja rápida.
-* **Dashboard:** Alertas de stock bajo y productos por vencer.
+Enfocado en resolver problemas reales como:
+- Control de fechas de vencimiento (FIFO)
+- Manejo de lotes
+- Flujo rápido en el Punto de Venta (POS)
 
 ---
 
-## 🛠️ Tecnologías del Proyecto
+## 🚀 **Módulos y Funcionalidades**
 
-* **Backend:** C# / ASP.NET Core MVC (Entity Framework Core).
-* **Base de Datos:** SQL Server (Relacional).
-* **Frontend:** Razor Views, HTML5, CSS3, Bootstrap 5.
-* **IDE Recomendado:** Visual Studio 2022.
+### ✅ **Funcionalidades Activas**
+✔️ **Gestión de Categorías:** Clasificación clara (Abarrotes, Bebidas, Limpieza, etc.)  
+✔️ **Maestro de Productos:** Código de barras, precios, unidades (KG / UNIDAD)  
+✔️ **Gestión de Proveedores:** Validación de RUC y datos completos  
+✔️ **Validaciones de Datos:** Evita registros incompletos o inconsistentes
 
 ---
 
-## 💾 Guía de Instalación (Paso a Paso)
+### 🚧 **Próximas Implementaciones**
+🔄 **Entrada de Mercadería por Lotes:** Stock real + fechas de vencimiento  
+💳 **Punto de Venta (POS):** Interfaz rápida y minimalista  
+📊 **Dashboard Inteligente:** Alertas de stock bajo y productos por vencer  
 
-Si deseas probar este proyecto en tu máquina local, sigue estas instrucciones detalladas.
+---
 
-### 1. Clonar el Repositorio
-Abre tu terminal (Git Bash o CMD) y ejecuta:
+## 🛠️ **Tecnologías Utilizadas**
 
+| Capa | Tecnologías |
+|------|-------------|
+| **Backend** | C#, ASP.NET Core MVC, Entity Framework Core |
+| **Base de Datos** | SQL Server Express / LocalDB |
+| **Frontend** | Razor Views, HTML5, CSS3, Bootstrap 5 |
+| **IDE** | Visual Studio 2022 |
+
+---
+
+## 💾 **Guía de Instalación (Paso a Paso)**
+
+### **1️⃣ Clonar el Repositorio**
 ```bash
-git clone [https://github.com/AbnerGA7/minimarket-app.git]
- ```
-El proyecto incluye el script necesario para crear la base de datos automáticamente.
+git clone https://github.com/AbnerGA7/minimarket-app.git
+```
+2️⃣ Crear la Base de Datos
 
-Ve a la carpeta Database/ dentro de este repositorio.
+Ve a la carpeta Database/.
 
-Abre el archivo  
-```Script_Minimarket.sql. ```
+Abre Script_Minimarket.sql.
 
-Copia todo el contenido.
+Copia su contenido.
 
 Abre SQL Server Management Studio (SSMS).
 
-Crea una Nueva Consulta (New Query), pega el código y presiona Ejecutar (F5).
+Crea una nueva consulta (New Query).
 
-Esto creará la base de datos minimarket-app y todas sus tablas.
+Pega el contenido y presiona F5.
 
-3. Conectar la Aplicación
-Para que el sistema se conecte a TU base de datos, debes configurar el servidor.
+Esto creará la base de datos minimarket-app con todas sus tablas.
+3️⃣ Configurar la Cadena de Conexión
 
-Abre el proyecto en Visual Studio.
-
-Busca el archivo appsettings.json.
-
-Modifica la cadena de conexión (ConnectionStrings) según tu servidor:
-
-JSON
-
-"ConnectionStrings": {
-  // Si usas SQL Express:
-  "DefaultConnection": "Server=.\\SQLEXPRESS;Database=minimarket-app;Trusted_Connection=True;TrustServerCertificate=True;"
-  
-  // Si usas SQL LocalDB (Visual Studio por defecto):
-  // "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=minimarket-app;Trusted_Connection=True;TrustServerCertificate=True;"
-}
-4. Ejecutar el Proyecto ▶️
-En Visual Studio, presiona F5 o el botón verde de Play.
-
-El navegador se abrirá automáticamente en https://localhost:TU_PUERTO.
-
-¡Listo! Ya puedes navegar por los módulos de Categorías, Productos y Proveedores.
-
-----------------------------------------------------------------------------------
-
-📝 Comandos Útiles para Desarrolladores
-Si realizas cambios en la Base de Datos y necesitas actualizar el código C# (Modelos), usa este comando en la consola del Administrador de Paquetes:
-
-PowerShell
- ```
-dotnet ef dbcontext scaffold "Server=.\SQLEXPRESS;Database=minimarket-app;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -c MinimarketContext --force
- ```
-👤 Autor
-Desarrollado por Abner Gonzales. Estudiante de Ingeniería de Software.
-
-
-### Tu siguiente paso 🚀
-Una vez que hayas guardado el archivo SQL en la carpeta y actualizado el README, ejecuta estos comandos en tu terminal para subir todo a GitHub:
-
+En appsettings.json:
 ```bash
-git add .
-git commit -m "Agregado README profesional y Script de Base de Datos"
-git push origin main
- ```
+"ConnectionStrings": {
+    "DefaultConnection": "Server=.\\SQLEXPRESS;Database=minimarket-app;Trusted_Connection=True;TrustServerCertificate=True;"
+}
+```
+Si usas LocalDB
+```bash
+"DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=minimarket-app;Trusted_Connection=True;TrustServerCertificate=True;"
+```
+4️⃣ Ejecutar el Proyecto
+
+En Visual Studio:
+
+▶️ Presiona F5
+El navegador abrirá:
+```bash
+https://localhost:PUERTO
+```
+🧰 Comandos Útiles 
+Regenerar modelos desde la base de datos:
+```bash
+dotnet ef dbcontext scaffold "Server=.\SQLEXPRESS;Database=minimarket-app;Trusted_Connection=True;TrustServerCertificate=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models -c MinimarketContext --force
+```
+
+👤 Autor
+Abner Gonzales
+Estudiante de Ingeniería de Software
+Desarrollador de sistemas y plataformas web.

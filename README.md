@@ -67,6 +67,7 @@ Crea una nueva consulta (New Query).
 Pega el contenido y presiona F5.
 
 Esto creará la base de datos minimarket-app con todas sus tablas.
+
 3️⃣ Configurar la Cadena de Conexión
 
 En appsettings.json:

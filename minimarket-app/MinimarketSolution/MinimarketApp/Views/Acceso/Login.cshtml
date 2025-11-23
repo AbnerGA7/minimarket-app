@@ -1,0 +1,107 @@
+﻿@{
+    Layout = null; // Importante: No usa _Layout porque es una pantalla independiente
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - MinimarketApp</title>
+    <!-- Usamos Bootstrap para el diseño -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <style>
+        /* Fondo con degradado que coincide con el Navbar */
+        body {
+            background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        /* Tarjeta del formulario */
+        .card-login {
+            background: white;
+            padding: 3rem 2rem; /* Más espacio interior */
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4); /* Sombra más fuerte */
+            width: 100%;
+            max-width: 420px;
+            animation: fadeIn 0.8s ease-out; /* Animación sutil */
+        }
+
+        .logo-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            color: #4ca1af; /* Color del degradado */
+        }
+
+        .btn-ingresar {
+            background: linear-gradient(135deg, #4ca1af 0%, #2c3e50 100%);
+            border: none;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            transition: all 0.2s;
+        }
+
+            .btn-ingresar:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(76, 161, 175, 0.4);
+            }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card-login text-center">
+        <!-- Ícono o Logo -->
+        <div class="logo-icon">🛒</div>
+        <h3 class="fw-bold text-dark mb-1">Minimarket App</h3>
+        <p class="text-muted small mb-4">Accede a tu Panel Operativo</p>
+
+        <form asp-controller="Acceso" asp-action="Login" method="post">
+
+            <!-- Campo Usuario -->
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control rounded-pill" name="username" id="u" placeholder="Usuario" required autofocus>
+                <label for="u">Usuario</label>
+            </div>
+
+            <!-- Campo Contraseña -->
+            <div class="form-floating mb-4">
+                <input type="password" class="form-control rounded-pill" name="password" id="p" placeholder="Contraseña" required>
+                <label for="p">Contraseña</label>
+            </div>
+
+            <!-- Mensaje de Error (Si falla el login) -->
+            @if (ViewData["Mensaje"] != null)
+            {
+                <div class="alert alert-danger py-2 mb-3 d-flex align-items-center justify-content-center small" role="alert">
+                    <span class="me-2">⚠️</span>
+                    <div>@ViewData["Mensaje"]</div>
+                </div>
+            }
+
+            <!-- Botón Ingresar -->
+            <button class="btn btn-ingresar w-100 btn-lg rounded-pill shadow-sm" type="submit">
+                INGRESAR
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>

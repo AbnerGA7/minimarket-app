@@ -1,0 +1,223 @@
+﻿@model MinimarketApp.Models.CajaReporteVM
+
+@{
+    ViewData["Title"] = "Cierre de Caja";
+
+    // Variables del modelo para facilitar la lectura
+    decimal saldoEsperado = Model.SaldoEsperado; // Usamos la propiedad regular
+
+    // 1. SOLUCIÓN AL CS1501: Convertimos el decimal a string PURO para JS
+    // Usamos el método ToString() que no toma argumentos y luego pasamos a InvariantCulture
+    string saldoEsperadoPuro = saldoEsperado.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+    decimal ventasEfectivo = Model.TotalEfectivoVentas;
+    decimal ventasVirtual = Model.TotalVirtualVentas;
+    decimal gastosRetiros = Model.TotalRetirosYGastos;
+    int cantidadTickets = Model.VentasDelTurno.Count;
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-dark text-white text-center py-3">
+                    <h3 class="m-0 fw-bold">🔐 Cierre de Caja / Turno Personal</h3>
+                    <small>Cajero: @Model.CajeroNombre | Turno iniciado: @Model.FechaInicioTurno.ToString("dd/MM/yyyy hh:mm tt")</small>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <!-- RESUMEN DEL SISTEMA (KPIs del Turno) -->
+                    <h5 class="fw-bold border-bottom pb-2 mb-3">Resumen del Turno Actual</h5>
+                    <div class="row mb-4 text-center g-3">
+
+                        <div class="col-md-3">
+                            <div class="card bg-light shadow-sm py-2">
+                                <h6 class="text-muted small">Tickets</h6>
+                                <h3 class="text-dark">@cantidadTickets</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-light shadow-sm py-2">
+                                <h6 class="text-muted small">Fondo Inicial</h6>
+                                <h3 class="text-info">S/ @Model.SaldoInicial.ToString("N2")</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-light shadow-sm py-2">
+                                <h6 class="text-muted small">Ventas Efectivo</h6>
+                                <h3 class="text-success">S/ @ventasEfectivo.ToString("N2")</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-light shadow-sm py-2">
+                                <h6 class="text-muted small">Ventas Digitales</h6>
+                                <h3 class="text-warning">S/ @ventasVirtual.ToString("N2")</h3>
+                            </div>
+                        </div>
+
+                        <!-- FILA DE GASTOS Y RETIROS -->
+                        <div class="col-12 mt-3">
+                            <div class="card bg-light shadow-sm py-2 border-danger">
+                                <h6 class="text-muted small m-0">Retiros / Gastos de Caja</h6>
+                                <h4 class="text-danger m-0">S/ @gastosRetiros.ToString("N2")</h4>
+                                <small class="text-muted">(Descontado del Saldo Esperado)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <!-- FORMULARIO DE CONTEO Y CIERRE -->
+                    <form asp-action="GuardarCierre" method="post" id="formCierre">
+
+                        <!-- 1. TOTAL ESPERADO (Cálculo Automático) -->
+                        <div class="alert alert-secondary text-center py-2 mb-3 shadow-sm border-0">
+                            <span class="text-muted">Total **Esperado** en Efectivo:</span>
+                            <!-- Mostramos el saldo calculado por la lógica del controlador -->
+                            <h2 class="fw-bold m-0" id="lblEsperadoCalculado">S/ @Model.SaldoEsperado.ToString("N2")</h2>
+                            <!-- Hidden input: PASA EL VALOR PURO A JS -->
+                            <input type="hidden" id="hfEsperadoPuro" value="@saldoEsperadoPuro" />
+                        </div>
+
+
+                        <!-- 2. CONTEO REAL (Lo que cuenta el cajero) -->
+                        <div class="form-group mb-4 row align-items-center">
+                            <label class="col-sm-6 col-form-label fw-bold text-primary">Dinero Contado (Real):</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary text-white">S/</span>
+                                    <!-- ESTE ES EL CAMPO CLAVE DEL ARQUEO CIEGO -->
+                                    <input type="number" id="txtFinal" name="montoFinal" class="form-control form-control-lg text-end fw-bold border-primary" step="0.10" placeholder="0.00" required />
+                                </div>
+                                <small class="text-primary">Ingresa el conteo final de efectivo (Ciego).</small>
+                            </div>
+                        </div>
+
+                        <!-- 3. DIFERENCIA (Cuadre) -->
+                        <div class="card mb-4 border-0 shadow" id="cardResultado">
+                            <div class="card-body text-center py-3">
+                                <h6 class="m-0 text-muted">Resultado del Arqueo</h6>
+                                <h1 class="display-4 fw-bold m-0" id="lblDiferencia">S/ 0.00</h1>
+                                <span id="lblEstado" class="badge bg-secondary">Pendiente de Conteo</span>
+                            </div>
+                        </div>
+
+                        <!-- OBSERVACIONES -->
+                        <div class="form-group mb-3">
+                            <label class="form-label">Observaciones:</label>
+                            <textarea name="observaciones" class="form-control" rows="2" placeholder="Notas sobre faltantes o sobrantes..."></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg" @(Model.YaExisteCierre ? "disabled" : "") onclick="return confirm('¿Estás seguro de cerrar el turno? Esto quedará registrado.');">
+                                🔒 Cerrar Caja y Guardar Arqueo
+                            </button>
+                            @if (Model.YaExisteCierre)
+                            {
+                                <div class="alert alert-success text-center mt-3">
+                                    El cierre para este turno ya fue registrado.
+                                </div>
+                            }
+                            <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary mt-2">Volver al Dashboard</a>
+                        </div>
+                    </form>
+
+                    <hr class="mt-5" />
+
+                    <!-- TABLA DE VENTAS DEL TURNO -->
+                    <h5 class="fw-bold mb-3">Detalle de Ventas del Turno</h5>
+                    <table class="table table-striped table-sm mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ticket</th>
+                                <th>Hora</th>
+                                <th>Pago</th>
+                                <th class="text-end">Monto</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var venta in Model.VentasDelTurno)
+                            {
+                                <tr>
+                                    <td class="fw-bold">#@venta.IdVenta.ToString("D6")</td>
+                                    <td>@@venta.FechaVenta.ToString("hh:mm tt")</td>
+                                    <td>@venta.IdMedioPagoNavigation.Nombre</td>
+                                    <td class="text-end fw-bold text-primary">S/ @venta.TotalVenta.ToString("N2")</td>
+                                    <td>
+                                        <a asp-controller="Ventas" asp-action="Details" asp-route-id="@venta.IdVenta" class="btn btn-outline-info btn-sm">Ver</a>
+                                    </td>
+                                </tr>
+                            }
+                            @if (Model.VentasDelTurno.Count == 0)
+                            {
+                                <tr><td colspan="5" class="text-center text-muted">No se registraron ventas en este turno.</td></tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPT DE CÁLCULO AUTOMÁTICO -->
+@section Scripts {
+    <script>
+        // 1. OBTENEMOS EL VALOR PURO DEL HIDDEN FIELD
+        const esperadoPuro = document.getElementById("hfEsperadoPuro").value;
+        const esperadoDelSistema = parseFloat(esperadoPuro);
+
+        const txtFinal = document.getElementById("txtFinal");
+        const lblDiferencia = document.getElementById("lblDiferencia");
+        const lblEstado = document.getElementById("lblEstado");
+        const cardResultado = document.getElementById("cardResultado");
+        const btnCerrar = document.querySelector('button[type="submit"]');
+
+        function calcularArqueo() {
+            const final = parseFloat(txtFinal.value) || 0;
+            const diferencia = final - esperadoDelSistema;
+
+            lblDiferencia.innerText = (diferencia >= 0 ? "+" : "") + "S/ " + diferencia.toFixed(2);
+
+            // Lógica de colores y estados
+            if (Math.abs(diferencia) < 0.005) { // Margen pequeño para decimales
+                cardResultado.style.backgroundColor = "#d1e7dd";
+                lblDiferencia.className = "display-4 fw-bold m-0 text-success";
+                lblEstado.className = "badge bg-success";
+                lblEstado.innerText = "¡Caja Cuadrada!";
+                btnCerrar.classList.remove('btn-danger', 'btn-info', 'btn-warning');
+                btnCerrar.classList.add('btn-success');
+            } else {
+                const absDiferencia = Math.abs(diferencia);
+                if (diferencia > 0) {
+                    // Sobrante
+                    cardResultado.style.backgroundColor = "#cff4fc";
+                    lblDiferencia.className = "display-4 fw-bold m-0 text-info";
+                    lblEstado.className = "badge bg-info text-dark";
+                    lblEstado.innerText = `Sobrante de S/ ${absDiferencia.toFixed(2)}`;
+                    btnCerrar.classList.remove('btn-danger', 'btn-success', 'btn-warning');
+                    btnCerrar.classList.add('btn-info');
+                } else {
+                    // Faltante
+                    cardResultado.style.backgroundColor = "#f8d7da";
+                    lblDiferencia.className = "display-4 fw-bold m-0 text-danger";
+                    lblEstado.className = "badge bg-danger";
+                    lblEstado.innerText = `Faltante de S/ ${absDiferencia.toFixed(2)}`;
+                    btnCerrar.classList.remove('btn-success', 'btn-info', 'btn-warning');
+                    btnCerrar.classList.add('btn-danger');
+                }
+            }
+        }
+
+        // Asegurar que el cálculo se inicie al cargar si hay un valor en la caja
+        window.addEventListener('DOMContentLoaded', (event) => {
+            if (txtFinal.value) calcularArqueo();
+        });
+
+        // Ejecutar cálculo cuando escriban
+        txtFinal.addEventListener("input", calcularArqueo);
+    </script>
+}

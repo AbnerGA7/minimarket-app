@@ -1,12 +1,3 @@
-C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.csproj.AssemblyReference.cache
-C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.AssemblyInfoInputs.cache
-C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.AssemblyInfo.cs
-C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.csproj.CoreCompileInputs.cache
-C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.RazorAssemblyInfo.cache
-C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.RazorAssemblyInfo.cs
-C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.sourcelink.json
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\appsettings.json
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\MinimarketApp.staticwebassets.runtime.json
@@ -18,6 +9,11 @@ C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\MinimarketApp.pdb
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\Azure.Core.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\Azure.Identity.dll
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\ClosedXML.dll
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\ClosedXML.Parser.dll
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\DocumentFormat.OpenXml.dll
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\ExcelNumberFormat.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\Humanizer.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -73,6 +69,8 @@ C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\NuGet.ProjectModel.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\NuGet.Protocol.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\NuGet.Versioning.dll
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\RBush.dll
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\SixLabors.Fonts.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\System.ClientModel.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\System.CodeDom.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\System.Composition.AttributedModel.dll
@@ -82,6 +80,7 @@ C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\System.Composition.TypedParts.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\System.IO.Packaging.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\System.Memory.Data.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\System.Reflection.MetadataLoadContext.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\System.Runtime.Caching.dll
@@ -245,6 +244,15 @@ C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\runtimes\win-x64\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.dll
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\bin\Debug\net9.0\runtimes\win\lib\net6.0\System.Runtime.Caching.dll
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.csproj.AssemblyReference.cache
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.AssemblyInfoInputs.cache
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.AssemblyInfo.cs
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.csproj.CoreCompileInputs.cache
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.RazorAssemblyInfo.cache
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.RazorAssemblyInfo.cs
+C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\MinimarketApp.sourcelink.json
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\scopedcss\bundle\MinimarketApp.styles.css
 C:\Users\abner\OneDrive\Desktop\minimarketapp\minimarket-app\MinimarketSolution\MinimarketApp\obj\Debug\net9.0\scopedcss\projectbundle\MinimarketApp.bundle.scp.css

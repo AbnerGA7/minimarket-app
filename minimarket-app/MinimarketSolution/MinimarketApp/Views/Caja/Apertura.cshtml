@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Apertura de Caja";
+    string estado = ViewBag.Estado as string ?? "PENDIENTE";
+    string cajero = ViewBag.Cajero as string ?? "Cajero";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+            <div class="card shadow-lg border-primary">
+                
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h3 class="mb-1 fw-bold">🚪 @ViewData["Title"]</h3>
+                    <p class="mb-0">Bienvenido(a), <strong class="text-warning">@cajero</strong></p>
+                </div>
+                
+                <div class="card-body p-4">
+
+                    @if (estado == "CERRADA")
+                    {
+                        <!-- MENSAJE DE CAJA YA CERRADA HOY -->
+                        <div class="alert alert-warning text-center">
+                            <h4 class="alert-heading">🚫 Turno Concluido</h4>
+                            <p>Ya has registrado el **Cierre de Caja** para hoy. No puedes realizar nuevas ventas ni movimientos.</p>
+                            <hr>
+                            <p class="mb-0">Si necesitas iniciar un nuevo turno, por favor, contacta a un administrador para que te habilite.</p>
+                        </div>
+                    }
+                    else if (estado == "PENDIENTE")
+                    {
+                        <!-- FORMULARIO DE APERTURA PENDIENTE -->
+                        <div class="alert alert-info text-center">
+                            <p class="mb-0 fw-bold">Para empezar a vender, debes declarar tu fondo inicial de caja (dinero en efectivo).</p>
+                        </div>
+                        
+                        <form asp-action="GuardarApertura" method="post">
+                            
+                            <div class="mb-4">
+                                <label for="montoInicial" class="form-label fw-bold fs-5 text-muted">Monto Inicial (S/)</label>
+                                <input type="number" id="montoInicial" name="montoInicial" 
+                                       class="form-control form-control-lg text-center fs-2 border-primary" 
+                                       placeholder="Ej: 100.00" step="0.01" value="0.00" required autofocus />
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="observaciones" class="form-label text-muted">Observaciones (Opcional)</label>
+                                <textarea id="observaciones" name="observaciones" class="form-control" rows="2" 
+                                          placeholder="Ej: Billetes, Monedas..."></textarea>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary btn-lg py-3 shadow">
+                                    ✅ INICIAR TURNO Y ABRIR CAJA
+                                </button>
+                                
+                                <a asp-controller="Acceso" asp-action="Salir" class="btn btn-outline-secondary">
+                                    Cancelar y Salir
+                                </a>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

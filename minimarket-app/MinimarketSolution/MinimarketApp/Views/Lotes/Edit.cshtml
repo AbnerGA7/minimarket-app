@@ -2,84 +2,118 @@
 
 @{
     ViewData["Title"] = "Editar Lote";
+
+    // Calculamos el total histórico para mostrarlo al cargar (Para que no salga vacío)
+    decimal costoTotalHistorico = Model.CantidadInicial * Model.CostoCompraUnitario;
+    // Formato seguro para ponerlo en el input value (con punto decimal, no coma)
+    string valorTotal = costoTotalHistorico.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
 }
 
-<h1>Editar Lote (Mercadería)</h1>
+<h1>✏️ Editar Lote de Mercadería</h1>
 <hr />
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <input type="hidden" asp-for="IdLote" />
-
-            <div class="form-group mb-3">
-                <label asp-for="IdProducto" class="control-label">Producto</label>
-                <select asp-for="IdProducto" class="form-control" asp-items="ViewBag.IdProducto">
-                    <option value="">-- Seleccione Producto --</option>
-                </select>
-                <span asp-validation-for="IdProducto" class="text-danger"></span>
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="m-0">Modificar Información del Ingreso</h5>
             </div>
+            <div class="card-body p-4">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="IdLote" />
 
-            <div class="form-group mb-3">
-                <label asp-for="IdProveedor" class="control-label">Proveedor</label>
-                <select asp-for="IdProveedor" class="form-control" asp-items="ViewBag.IdProveedor">
-                    <option value="">-- Seleccione Proveedor --</option>
-                </select>
-                <span asp-validation-for="IdProveedor" class="text-danger"></span>
-            </div>
+                    <div class="row">
+                        <!-- COLUMNA 1: DATOS DEL PRODUCTO -->
+                        <div class="col-md-6 border-end">
+                            <h6 class="text-muted border-bottom pb-2 mb-3">📦 Información del Producto</h6>
 
-            <div class="form-group mb-3">
-                <label asp-for="NumeroLote" class="control-label">N° Lote (Código caja)</label>
-                <input asp-for="NumeroLote" class="form-control" />
-                <span asp-validation-for="NumeroLote" class="text-danger"></span>
-            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="IdProveedor" class="control-label fw-bold">Proveedor</label>
+                                <select asp-for="IdProveedor" class="form-select" asp-items="ViewBag.IdProveedor"></select>
+                                <span asp-validation-for="IdProveedor" class="text-danger"></span>
+                            </div>
 
-            <div class="row">
-                <div class="col-md-6 form-group mb-3">
-                    <label asp-for="FechaVencimiento" class="control-label">Fecha Vencimiento</label>
-                    <input asp-for="FechaVencimiento" class="form-control" type="date" />
-                    <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
-                </div>
-                <div class="col-md-6 form-group mb-3">
-                    <label asp-for="FechaRecepcion" class="control-label">Fecha Recepción</label>
-                    <input asp-for="FechaRecepcion" class="form-control" type="date" />
-                    <span asp-validation-for="FechaRecepcion" class="text-danger"></span>
-                </div>
-            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="IdProducto" class="control-label fw-bold">Producto</label>
+                                <select asp-for="IdProducto" class="form-select" asp-items="ViewBag.IdProducto"></select>
+                                <span asp-validation-for="IdProducto" class="text-danger"></span>
+                            </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="CostoCompraUnitario" class="control-label">Costo Compra (Unitario)</label>
-                <input asp-for="CostoCompraUnitario" class="form-control" type="number" step="0.01" />
-                <span asp-validation-for="CostoCompraUnitario" class="text-danger"></span>
-            </div>
+                            <div class="form-group mb-3">
+                                <label asp-for="NumeroLote" class="control-label fw-bold">N° Lote / Código</label>
+                                <input asp-for="NumeroLote" class="form-control" />
+                                <span asp-validation-for="NumeroLote" class="text-danger"></span>
+                            </div>
 
-            <div class="row">
-                <div class="col-md-6 form-group mb-3">
-                    <label asp-for="CantidadInicial" class="control-label">Cantidad Original</label>
-                    <input asp-for="CantidadInicial" class="form-control" readonly />
-                    <span asp-validation-for="CantidadInicial" class="text-danger"></span>
-                </div>
-                <div class="col-md-6 form-group mb-3">
-                    <label asp-for="StockActual" class="control-label">Stock Actual (Ajuste)</label>
-                    <input asp-for="StockActual" class="form-control" />
-                    <span asp-validation-for="StockActual" class="text-danger"></span>
-                </div>
-            </div>
+                            <div class="row">
+                                <div class="col-6 form-group mb-3">
+                                    <label asp-for="FechaVencimiento" class="control-label fw-bold text-danger">Vencimiento</label>
+                                    <input asp-for="FechaVencimiento" class="form-control border-danger" type="date" />
+                                    <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
+                                </div>
+                                <div class="col-6 form-group mb-3">
+                                    <label asp-for="FechaRecepcion" class="control-label text-muted">Recepción</label>
+                                    <input asp-for="FechaRecepcion" class="form-control" type="date" />
+                                    <span asp-validation-for="FechaRecepcion" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
 
-            <div class="form-group form-check mb-3">
-                <input class="form-check-input" type="checkbox" asp-for="Estado" id="checkEstado" />
-                <label class="form-check-label" for="checkEstado">
-                    ¿Lote Activo / Disponible?
-                </label>
-            </div>
+                        <!-- COLUMNA 2: BALANCE DE COSTOS -->
+                        <div class="col-md-6 bg-light p-3 rounded">
+                            <h6 class="text-primary border-bottom pb-2 mb-3">💰 Balance de Factura</h6>
 
-            <div class="form-group mt-4">
-                <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                            <!-- CANTIDAD ORIGINAL (Fija, base del cálculo) -->
+                            <div class="form-group mb-3">
+                                <label asp-for="CantidadInicial" class="control-label text-muted">Cantidad Comprada (Fija)</label>
+                                <input asp-for="CantidadInicial" id="txtCantidad" class="form-control bg-white fw-bold" readonly />
+                            </div>
+
+                            <!-- COSTO TOTAL (El dato que tienes en la factura) -->
+                            <div class="form-group mb-3">
+                                <label class="control-label fw-bold text-primary">Costo Total de la Factura</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary text-white">S/</span>
+                                    <!-- Aquí precargamos el valor calculado -->
+                                    <input type="number" id="txtCostoTotal" class="form-control fw-bold text-primary"
+                                           placeholder="Total pagado" step="0.01" value="@valorTotal" />
+                                </div>
+                                <small class="text-muted">Modifica este monto si la factura era diferente.</small>
+                            </div>
+
+                            <!-- COSTO UNITARIO (Se calcula solo) -->
+                            <div class="form-group mb-3">
+                                <label asp-for="CostoCompraUnitario" class="control-label fw-bold text-success">Costo Unitario (Resultado)</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-success text-white">S/</span>
+                                    <input asp-for="CostoCompraUnitario" id="txtCostoUnitario" class="form-control fw-bold text-success" type="number" step="0.0001" readonly />
+                                </div>
+                                <span asp-validation-for="CostoCompraUnitario" class="text-danger"></span>
+                            </div>
+
+                            <hr />
+
+                            <div class="form-group mb-3">
+                                <label asp-for="StockActual" class="control-label fw-bold text-warning">⚠️ Stock Físico Actual</label>
+                                <input asp-for="StockActual" class="form-control border-warning" type="number" />
+                                <small class="text-muted">Solo cambiar si hubo merma o conteo.</small>
+                            </div>
+
+                            <div class="form-check form-switch mt-3">
+                                <input class="form-check-input" type="checkbox" asp-for="Estado" id="switchEstado" />
+                                <label class="form-check-label fw-bold" for="switchEstado">Lote Activo</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-4 border-top pt-3">
+                        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary px-4">💾 Guardar Cambios</button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
@@ -87,4 +121,34 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        const txtCantidad = document.getElementById("txtCantidad");
+        const txtCostoTotal = document.getElementById("txtCostoTotal");
+        const txtCostoUnitario = document.getElementById("txtCostoUnitario");
+
+        // 1. Si cambias el TOTAL -> Se calcula el UNITARIO (Lo más común)
+        txtCostoTotal.addEventListener("input", function() {
+            const cantidad = parseFloat(txtCantidad.value) || 0;
+            const total = parseFloat(this.value) || 0;
+
+            if (cantidad > 0) {
+                const unitario = total / cantidad;
+                txtCostoUnitario.value = unitario.toFixed(4); // 4 decimales para precisión interna
+            }
+        });
+
+        // 2. (Opcional) Si por alguna razón cambias el UNITARIO manualmente (quitándole el readonly en el futuro)
+        // esto actualizaría el total para que cuadre.
+        /*
+        txtCostoUnitario.addEventListener("input", function() {
+            const cantidad = parseFloat(txtCantidad.value) || 0;
+            const unitario = parseFloat(this.value) || 0;
+            if (cantidad > 0) {
+                const total = unitario * cantidad;
+                txtCostoTotal.value = total.toFixed(2);
+            }
+        });
+        */
+    </script>
 }

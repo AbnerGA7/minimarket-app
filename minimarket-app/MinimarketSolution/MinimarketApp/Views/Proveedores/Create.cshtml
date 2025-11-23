@@ -1,52 +1,67 @@
 ﻿@model MinimarketApp.Models.Proveedore
 
 @{
-    ViewData["Title"] = "Registrar Proveedor";
+    ViewData["Title"] = "Nuevo Proveedor";
 }
 
-<h1>Registrar Nuevo Proveedor</h1>
-<hr />
+<div class="row justify-content-center">
+    <div class="col-md-8">
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <div class="form-group mb-3">
-                <label asp-for="RucDni" class="control-label">RUC / DNI</label>
-                <input asp-for="RucDni" class="form-control" placeholder="Ej: 20100055237" />
-                <span asp-validation-for="RucDni" class="text-danger"></span>
+        <!-- TARJETA FLOTANTE -->
+        <div class="card shadow-lg border-0 rounded-3 overflow-hidden mt-4">
+            <!-- Encabezado Verde -->
+            <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #198754 0%, #38a56a 100%);">
+                <h4 class="fw-bold m-0">🚛 Registrar Nuevo Proveedor</h4>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="RazonSocial" class="control-label">Razón Social / Nombre</label>
-                <input asp-for="RazonSocial" class="form-control" placeholder="Ej: Distribuidora Alicorp S.A." />
-                <span asp-validation-for="RazonSocial" class="text-danger"></span>
-            </div>
+            <div class="card-body p-5">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Telefono" class="control-label">Teléfono</label>
-                <input asp-for="Telefono" class="form-control" placeholder="Ej: 999-888-777" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
+                    <div class="row">
+                        <!-- RUC/DNI y Razon Social -->
+                        <div class="col-md-6 form-floating mb-3">
+                            <input asp-for="RucDni" class="form-control rounded-pill" placeholder="RUC / DNI" />
+                            <label asp-for="RucDni" class="ps-4">RUC / DNI</label>
+                            <span asp-validation-for="RucDni" class="text-danger ps-3 small"></span>
+                        </div>
+                        <div class="col-md-6 form-floating mb-3">
+                            <input asp-for="RazonSocial" class="form-control rounded-pill" placeholder="Razón Social" />
+                            <label asp-for="RazonSocial" class="ps-4">Razón Social</label>
+                            <span asp-validation-for="RazonSocial" class="text-danger ps-3 small"></span>
+                        </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Email" class="control-label">Correo Electrónico</label>
-                <input asp-for="Email" class="form-control" type="email" placeholder="ventas@proveedor.com" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+                        <!-- Teléfono y Email -->
+                        <div class="col-md-6 form-floating mb-3">
+                            <input asp-for="Telefono" class="form-control rounded-pill" placeholder="Teléfono" />
+                            <label asp-for="Telefono" class="ps-4">Teléfono</label>
+                            <span asp-validation-for="Telefono" class="text-danger ps-3 small"></span>
+                        </div>
+                        <div class="col-md-6 form-floating mb-3">
+                            <input asp-for="Email" class="form-control rounded-pill" placeholder="Correo Electrónico" />
+                            <label asp-for="Email" class="ps-4">Correo Electrónico</label>
+                            <span asp-validation-for="Email" class="text-danger ps-3 small"></span>
+                        </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="Direccion" class="control-label">Dirección</label>
-                <input asp-for="Direccion" class="form-control" placeholder="Av. Principal 123, Lima" />
-                <span asp-validation-for="Direccion" class="text-danger"></span>
-            </div>
+                        <!-- Dirección -->
+                        <div class="col-12 form-floating mb-4">
+                            <input asp-for="Direccion" class="form-control rounded-pill" placeholder="Dirección" />
+                            <label asp-for="Direccion" class="ps-4">Dirección</label>
+                            <span asp-validation-for="Direccion" class="text-danger ps-3 small"></span>
+                        </div>
+                    </div>
 
-            <div class="form-group mt-4">
-                <input type="submit" value="Guardar Proveedor" class="btn btn-success" />
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                    <!-- BOTONES -->
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-success btn-lg rounded-pill shadow-sm" style="border:none;">
+                            💾 Guardar Proveedor
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill border-0">Cancelar</a>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
+
     </div>
 </div>
 

@@ -1,55 +1,167 @@
 ﻿@model IEnumerable<MinimarketApp.Models.Producto>
 
 @{
-    ViewData["Title"] = "Listado de Productos";
+    ViewData["Title"] = "Productos";
 }
 
-<h1>Listado de Productos</h1>
+<!-- ESTILOS PROPIOS -->
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Registrar Nuevo Producto</a>
-</p>
+    .filter-card {
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        border: 1px solid #e9ecef;
+    }
 
-<table class="table table-hover table-bordered">
-    <thead class="thead-dark">
-        <tr>
-            <th class="text-center">Código</th>
-            <th class="text-center">Producto</th>
-            <th class="text-center">Stock Mínimo</th>
-            <th class="text-center">Precio Venta</th>
-            <th class="text-center">Unidad</th>
-            <th class="text-center">Categoría</th>
-            <th class="text-center">Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.CodigoBarras)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.StockMinimo)
-                </td>
-                <td class="text-center">
-                    S/ @Html.DisplayFor(modelItem => item.PrecioVenta)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.UnidadMedida)
-                </td>
-                <td class="text-center">
-                    @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.Nombre)
-                </td>
-                <td class="text-center">
-                    <a asp-action="Edit" asp-route-id="@item.IdProducto" class="btn btn-primary btn-sm">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.IdProducto" class="btn btn-info btn-sm">Detalles</a>
-                    <a asp-action="Delete" asp-route-id="@item.IdProducto" class="btn btn-danger btn-sm">Eliminar</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    .badge-stock-ok {
+        background-color: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .badge-stock-low {
+        background-color: #fff3cd;
+        color: #664d03;
+    }
+
+    .badge-stock-critical {
+        background-color: #f8d7da;
+        color: #842029;
+    }
+</style>
+
+<!-- ENCABEZADO -->
+<div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="fw-bold mb-0">🏷️ Catálogo de Productos</h1>
+        <p class="mb-0 opacity-75">Administra inventario, precios y categorías</p>
+    </div>
+    <a asp-action="Create" class="btn btn-light text-primary fw-bold rounded-pill shadow-sm px-4">
+        + Nuevo Producto
+    </a>
+</div>
+
+<!-- BARRA DE HERRAMIENTAS (FILTROS) -->
+<div class="card filter-card mb-4 shadow-sm">
+    <div class="card-body py-3">
+        <form asp-action="Index" method="get" class="row g-2 align-items-center">
+
+            <!-- 1. BUSCADOR -->
+            <div class="col-md-5">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">🔍</span>
+                    <input type="text" name="buscar" value="@ViewData["BusquedaActual"]" class="form-control border-start-0 ps-0" placeholder="Buscar por nombre o código..." />
+                </div>
+            </div>
+
+            <!-- 2. FILTRO CATEGORÍA -->
+            <div class="col-md-4">
+                <select name="idCategoria" class="form-select" asp-items="ViewBag.IdCategoria" onchange="this.form.submit()">
+                    <option value="">-- Todas las Categorías --</option>
+                </select>
+            </div>
+
+            <!-- 3. BOTONES -->
+            <div class="col-md-3 text-end">
+                <button type="submit" class="btn btn-primary px-4">Filtrar</button>
+                <a asp-action="Index" class="btn btn-outline-secondary">Limpiar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- TABLA -->
+<div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light text-uppercase small text-muted">
+                <tr>
+                    <th class="ps-4 py-3">Producto</th>
+                    <th class="text-center">Categoría</th>
+                    <th class="text-end">Precio</th>
+                    <th class="text-center">Stock Real</th> <!-- COLUMNA CALCULADA -->
+                    <th class="text-center">Estado</th>
+                    <th class="text-end pe-4">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">
+                            <h4>📭 No se encontraron productos</h4>
+                            <p>Intenta cambiar los filtros de búsqueda.</p>
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var item in Model)
+                    {
+                        // CÁLCULO DE STOCK REAL EN TIEMPO REAL
+                        // Sumamos solo los lotes activos (Estado = true)
+                        int stockReal = item.Lotes != null ? item.Lotes.Where(l => l.Estado).Sum(l => l.StockActual) : 0;
+
+                        // Lógica de Semáforo de Stock
+                        string claseStock = "badge-stock-ok";
+                        string textoStock = "En Stock";
+
+                        if (stockReal == 0)
+                        {
+                            claseStock = "badge-stock-critical";
+                            textoStock = "Agotado";
+                        }
+                        else if (stockReal <= item.StockMinimo)
+                        {
+                            claseStock = "badge-stock-low";
+                            textoStock = "Bajo Stock";
+                        }
+
+                        <tr>
+                            <td class="ps-4">
+                                <div class="fw-bold text-primary">@Html.DisplayFor(modelItem => item.Nombre)</div>
+                                <small class="text-muted">Cod: @Html.DisplayFor(modelItem => item.CodigoBarras)</small>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge bg-light text-dark border">
+                                    @Html.DisplayFor(modelItem => item.IdCategoriaNavigation.Nombre)
+                                </span>
+                            </td>
+                            <td class="text-end fw-bold text-success fs-6">
+                                S/ @Html.DisplayFor(modelItem => item.PrecioVenta)
+                            </td>
+
+                            <!-- COLUMNA STOCK REAL -->
+                            <td class="text-center">
+                                <span class="fs-5 fw-bold">@stockReal</span>
+                                <small class="text-muted">@item.UnidadMedida</small>
+                            </td>
+
+                            <!-- COLUMNA ESTADO (ALERTA) -->
+                            <td class="text-center">
+                                <span class="badge @claseStock rounded-pill border px-3 py-2">
+                                    @textoStock
+                                </span>
+                            </td>
+
+                            <td class="text-end pe-4">
+                                <div class="btn-group">
+                                    <a asp-action="Edit" asp-route-id="@item.IdProducto" class="btn btn-outline-primary btn-sm rounded-start-pill" title="Editar">✏️</a>
+                                    <a asp-action="Details" asp-route-id="@item.IdProducto" class="btn btn-outline-info btn-sm" title="Detalles">ℹ️</a>
+                                    <a asp-action="Delete" asp-route-id="@item.IdProducto" class="btn btn-outline-danger btn-sm rounded-end-pill" title="Eliminar">🗑</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

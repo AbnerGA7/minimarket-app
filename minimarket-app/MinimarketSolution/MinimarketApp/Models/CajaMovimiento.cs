@@ -9,13 +9,16 @@ public partial class CajaMovimiento
 
     public int? IdUsuario { get; set; }
 
-    public DateTime? FechaMovimiento { get; set; }
+    // CORRECCIÓN: Quitamos el '?' para evitar errores de comparación
+    // y asumimos que siempre tiene un valor por el DEFAULT GETDATE() en SQL
+    public DateTime FechaMovimiento { get; set; }
 
-    public string TipoMovimiento { get; set; } = null!;
+    public string TipoMovimiento { get; set; } = null!; // APERTURA, CIERRE, INGRESO, RETIRO
 
     public decimal Monto { get; set; }
 
     public string? Observacion { get; set; }
 
+    // Propiedad de navegación (Relación con la tabla Usuarios)
     public virtual Usuario? IdUsuarioNavigation { get; set; }
 }

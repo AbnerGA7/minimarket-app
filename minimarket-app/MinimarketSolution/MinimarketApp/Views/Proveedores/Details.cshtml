@@ -4,50 +4,44 @@
     ViewData["Title"] = "Detalles del Proveedor";
 }
 
-<h1>Detalles del Proveedor</h1>
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <div class="card shadow border-0 rounded-4">
+            <div class="card-body p-5 text-center">
 
-<div>
-    <h4>Información Registrada</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            RUC / DNI
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RucDni)
-        </dd>
+                <div class="mb-4">
+                    <span style="font-size: 4rem;">🚛</span>
+                </div>
 
-        <dt class="col-sm-2">
-            Razón Social
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.RazonSocial)
-        </dd>
+                <h2 class="fw-bold text-success mb-1">@Html.DisplayFor(model => model.RazonSocial)</h2>
+                <p class="text-muted mb-4">Detalles del Contacto</p>
 
-        <dt class="col-sm-2">
-            Teléfono
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Telefono)
-        </dd>
+                <div class="bg-light p-4 rounded-3 text-start d-inline-block w-100">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 text-secondary">RUC / DNI:</dt>
+                        <dd class="col-sm-8 fw-bold">@Html.DisplayFor(model => model.RucDni)</dd>
 
-        <dt class="col-sm-2">
-            Correo Electrónico
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
+                        <dt class="col-sm-4 text-secondary">Teléfono:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Telefono)</dd>
 
-        <dt class="col-sm-2">
-            Dirección
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Direccion)
-        </dd>
-    </dl>
-</div>
+                        <dt class="col-sm-4 text-secondary">Correo:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
 
-<div class="mt-3">
-    <a asp-action="Edit" asp-route-id="@Model?.IdProveedor" class="btn btn-primary">Editar</a> |
-    <a asp-action="Index" class="btn btn-secondary">Volver a la Lista</a>
+                        <dt class="col-sm-4 text-secondary">Dirección:</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Direccion)</dd>
+                    </dl>
+                </div>
+
+                <div class="mt-4 d-flex justify-content-center gap-2">
+                    <a asp-action="Edit" asp-route-id="@Model?.IdProveedor" class="btn btn-success rounded-pill px-4">
+                        ✏️ Editar
+                    </a>
+                    <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                        Volver
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>

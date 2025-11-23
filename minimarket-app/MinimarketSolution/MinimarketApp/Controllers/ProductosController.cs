@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore; // Necesario para Include y ToListAsync
 using MinimarketApp.Models;
 
 namespace MinimarketApp.Controllers
@@ -18,140 +14,111 @@ namespace MinimarketApp.Controllers
             _context = context;
         }
 
-        // GET: Productos
-        public async Task<IActionResult> Index()
+        // =============================================
+        // 1. LISTA DE PRODUCTOS (CON BÚSQUEDA Y FILTROS)
+        // =============================================
+        public async Task<IActionResult> Index(string buscar, int? idCategoria)
         {
-            var minimarketContext = _context.Productos.Include(p => p.IdCategoriaNavigation);
-            return View(await minimarketContext.ToListAsync());
-        }
+            // 1. Consulta Base (Traemos Categoría y Lotes para calcular stock)
+            var query = _context.Productos
+                .Include(p => p.IdCategoriaNavigation)
+                .Include(p => p.Lotes) // Incluimos lotes para sumar el stock real
+                .AsQueryable();
 
-        // GET: Productos/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            // 2. Filtro por Buscador (Nombre o Código)
+            if (!string.IsNullOrEmpty(buscar))
             {
-                return NotFound();
+                query = query.Where(p => p.Nombre.Contains(buscar) || p.CodigoBarras.Contains(buscar));
             }
 
+            // 3. Filtro por Categoría
+            if (idCategoria.HasValue)
+            {
+                query = query.Where(p => p.IdCategoria == idCategoria);
+            }
+
+            // 4. Cargar listas para la vista
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Nombre", idCategoria);
+            ViewData["BusquedaActual"] = buscar;
+
+            var listaProductos = await query.ToListAsync();
+            return View(listaProductos);
+        }
+
+        // ... (El resto de métodos Create, Edit, Details, Delete quedan IGUAL) ...
+
+        // (Solo asegúrate de no borrar el resto del controlador)
+
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null) return NotFound();
             var producto = await _context.Productos
                 .Include(p => p.IdCategoriaNavigation)
                 .FirstOrDefaultAsync(m => m.IdProducto == id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
-
+            if (producto == null) return NotFound();
             return View(producto);
         }
 
-        // GET: Productos/Create
         public IActionResult Create()
         {
-            // CORRECCIÓN AQUÍ: Cambiamos "IdCategoria" por "Nombre" en el tercer parámetro
-            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Nombre");
+            ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Nombre"); // Corregido para mostrar nombre
             return View();
         }
 
-        // POST: Productos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdProducto,CodigoBarras,Nombre,IdCategoria,StockMinimo,PrecioVenta,UnidadMedida")] Producto producto)
         {
-            // Nota: Quité ImagenUrl del Bind porque ya lo eliminamos de la vista
             if (ModelState.IsValid)
             {
                 _context.Add(producto);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            // CORRECCIÓN AQUÍ TAMBIÉN (Por si falla la validación y recarga la página)
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Nombre", producto.IdCategoria);
             return View(producto);
         }
 
-        // GET: Productos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
-            // CORRECCIÓN AQUÍ: Para que al editar salga el nombre de la categoría seleccionada
+            if (producto == null) return NotFound();
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Nombre", producto.IdCategoria);
             return View(producto);
         }
 
-        // POST: Productos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdProducto,CodigoBarras,Nombre,IdCategoria,StockMinimo,PrecioVenta,UnidadMedida")] Producto producto)
         {
-            if (id != producto.IdProducto)
-            {
-                return NotFound();
-            }
-
+            if (id != producto.IdProducto) return NotFound();
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(producto);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductoExists(producto.IdProducto))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                try { _context.Update(producto); await _context.SaveChangesAsync(); }
+                catch (DbUpdateConcurrencyException) { if (!ProductoExists(producto.IdProducto)) return NotFound(); else throw; }
                 return RedirectToAction(nameof(Index));
             }
-            // CORRECCIÓN FINAL AQUÍ
             ViewData["IdCategoria"] = new SelectList(_context.Categorias, "IdCategoria", "Nombre", producto.IdCategoria);
             return View(producto);
         }
 
-        // GET: Productos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            if (id == null) return NotFound();
             var producto = await _context.Productos
                 .Include(p => p.IdCategoriaNavigation)
                 .FirstOrDefaultAsync(m => m.IdProducto == id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
-
+            if (producto == null) return NotFound();
             return View(producto);
         }
 
-        // POST: Productos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var producto = await _context.Productos.FindAsync(id);
-            if (producto != null)
-            {
-                _context.Productos.Remove(producto);
-            }
-
+            if (producto != null) { _context.Productos.Remove(producto); }
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

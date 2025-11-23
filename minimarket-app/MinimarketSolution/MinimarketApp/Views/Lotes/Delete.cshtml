@@ -7,76 +7,78 @@
 <h1 class="text-danger">Dar de Baja Lote</h1>
 
 <h3>¿Estás seguro de que deseas eliminar este registro?</h3>
-<div class="alert alert-warning">
-    <strong>⚠️ Cuidado:</strong> Al eliminar este lote, el <strong>Stock Actual (@Model.StockActual)</strong> desaparecerá del inventario inmediatamente.
+<div class="alert alert-warning border-warning">
+    <strong>⚠️ Advertencia Crítica:</strong>
     <br />
-    Solo elimínalo si fue un error de registro. Si el producto se rompió o venció, es mejor usar el módulo de Mermas (futuro).
+    Al eliminar este lote, el <strong>Stock Actual (@Model.StockActual unidades)</strong> desaparecerá del inventario inmediatamente.
+    <br />
+    <small>Solo elimínalo si fue un error de registro. Si el producto se rompió o venció, considera usar el módulo de Mermas (si está implementado).</small>
 </div>
 
-<div>
-    <h4>Datos del Ingreso</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Producto
-        </dt>
-        <dd class="col-sm-10 font-weight-bold">
-            @Html.DisplayFor(model => model.IdProductoNavigation.Nombre)
-        </dd>
+<div class="container mt-4">
+    <div class="card shadow-sm border-danger">
+        <div class="card-header bg-danger text-white">
+            <h5 class="m-0">Datos del Lote a Eliminar</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row">
 
-        <dt class="col-sm-2">
-            Proveedor
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdProveedorNavigation.RazonSocial)
-        </dd>
+                <!-- PRODUCTO -->
+                <dt class="col-sm-3 text-muted">Producto</dt>
+                <dd class="col-sm-9 fw-bold fs-5">
+                    @Html.DisplayFor(model => model.IdProductoNavigation.Nombre)
+                </dd>
 
-        <dt class="col-sm-2">
-            N° Lote
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.NumeroLote)
-        </dd>
+                <!-- PROVEEDOR -->
+                <dt class="col-sm-3 text-muted">Proveedor</dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.IdProveedorNavigation.RazonSocial)
+                </dd>
 
-        <dt class="col-sm-2">
-            Fecha Vencimiento
-        </dt>
-        <dd class="col-sm-10 text-danger">
-            @Model.FechaVencimiento.ToShortDateString()
-        </dd>
+                <!-- N° LOTE -->
+                <dt class="col-sm-3 text-muted">N° Lote</dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.NumeroLote)
+                </dd>
 
-        <dt class="col-sm-2">
-            Fecha Recepción
-        </dt>
-        <dd class="col-sm-10">
-            @Model.FechaRecepcion?.ToShortDateString()
-        </dd>
+                <hr class="my-3" />
 
-        <dt class="col-sm-2">
-            Costo Unitario
-        </dt>
-        <dd class="col-sm-10">
-            S/ @Html.DisplayFor(model => model.CostoCompraUnitario)
-        </dd>
+                <!-- FECHAS -->
+                <dt class="col-sm-3 text-muted">Fecha Vencimiento</dt>
+                <dd class="col-sm-9 text-danger fw-bold">
+                    @Model.FechaVencimiento.ToShortDateString()
+                </dd>
 
-        <dt class="col-sm-2">
-            Stock Actual
-        </dt>
-        <dd class="col-sm-10 font-weight-bold">
-            @Html.DisplayFor(model => model.StockActual)
-        </dd>
+                <dt class="col-sm-3 text-muted">Fecha Recepción</dt>
+                <dd class="col-sm-9">
+                    @Model.FechaRecepcion?.ToString("dd/MM/yyyy")
+                </dd>
 
-        <dt class="col-sm-2">
-            Estado
-        </dt>
-        <dd class="col-sm-10">
-            @(Model.Estado == true ? "Activo" : "Inactivo")
-        </dd>
-    </dl>
+                <!-- COSTOS -->
+                <dt class="col-sm-3 text-muted">Costo Unitario</dt>
+                <dd class="col-sm-9">
+                    S/ @Model.CostoCompraUnitario.ToString("N2")
+                </dd>
 
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="IdLote" />
-        <input type="submit" value="Confirmar Baja" class="btn btn-danger" /> |
-        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-    </form>
+                <!-- STOCK -->
+                <dt class="col-sm-3 text-muted">Stock Actual</dt>
+                <dd class="col-sm-9 fw-bold">
+                    @Html.DisplayFor(model => model.StockActual) Unidades
+                </dd>
+
+                <!-- ESTADO -->
+                <dt class="col-sm-3 text-muted">Estado</dt>
+                <dd class="col-sm-9">
+                    @(Model.Estado ? "Activo" : "Inactivo")
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="IdLote" />
+                <a asp-action="Index" class="btn btn-secondary me-2">Cancelar</a>
+                <button type="submit" class="btn btn-danger">🗑 Confirmar Baja</button>
+            </form>
+        </div>
+    </div>
 </div>

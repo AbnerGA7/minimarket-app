@@ -1,0 +1,171 @@
+﻿@model MinimarketApp.Models.Venta
+
+@{
+    ViewData["Title"] = "Ticket de Venta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+    // Capturamos si venimos de cobrar una venta reciente (desde el controlador)
+    bool esVentaNueva = ViewBag.EsVentaNueva == true;
+    
+    // Obtenemos el nombre del cajero, si existe
+    string nombreCajero = Model.IdUsuarioNavigation?.NombreCompleto ?? "Cajero N/A";
+}
+
+<div class="container d-flex justify-content-center mt-4">
+    
+    <div class="ticket-container bg-white p-3 shadow-lg" id="areaImpresion">
+        
+        <div class="text-center mb-3">
+            <h4 class="fw-bold m-0">MINIMARKET APP</h4>
+            <small>RUC: 20123456789</small><br/>
+            <small>Dirección: Av. Principal 123</small><br/>
+            <p class="mt-2 mb-0 fw-bold">TICKET DE VENTA</p>
+            <h5 class="fw-bold">N° @Model.IdVenta.ToString("D6")</h5> 
+            <small>@Model.FechaVenta?.ToString("dd/MM/yyyy hh:mm tt")</small>
+        </div>
+
+        <div class="border-top py-1 mb-2">
+            <div class="d-flex justify-content-between" style="font-size: 0.9rem;">
+                <span>Cajero: @nombreCajero</span> 
+                <span>Pago: @Model.IdMedioPagoNavigation.Nombre</span>
+            </div>
+        </div>
+        <hr class="my-0" style="border-top: 1px solid #000;" />
+
+
+        <table class="w-100 mt-2" style="font-size: 0.9rem;">
+            <thead>
+                <tr class="border-bottom">
+                    <th class="text-start">Cant.</th>
+                    <th class="text-start">Descrip.</th>
+                    <th class="text-end">P.U.</th>
+                    <th class="text-end">Importe</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detalle in Model.DetalleVenta)
+                {
+                    {
+                        // Obtenemos la unidad del producto
+                        string unidadMedida = detalle.IdLoteNavigation?.IdProductoNavigation?.UnidadMedida ?? "UNIDAD";
+                        
+                        // En la base de datos Detalle.Cantidad es INT. 
+                        // Para KG, se guardó 1, pero la cantidad real es la que debería reflejarse si tuviéramos ese campo decimal
+                        // Por ahora, para KG, ponemos el marcador de 1 (KG) para que el cajero sepa que fue granel.
+                        string cantidadMostrar = (unidadMedida == "KG") ? "1 (KG)" : detalle.Cantidad.ToString("0"); 
+                    }
+                    <tr>
+                        <td class="text-start align-top" style="width: 10%;">@@cantidadMostrar</td>
+                        <td class="text-start text-truncate align-top" style="max-width: 120px;">
+                            @(detalle.IdLoteNavigation?.IdProductoNavigation?.Nombre ?? "Producto")
+                        </td>
+                        <td class="text-end align-top">@detalle.PrecioVentaUnitario.ToString("0.00")</td>
+                        <td class="text-end fw-bold align-top">
+                            @((detalle.Cantidad * detalle.PrecioVentaUnitario).ToString("0.00"))
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <hr class="my-0" style="border-top: 1px solid #000;" />
+        <div class="border-top mt-2 pt-2">
+            <div class="d-flex justify-content-between fw-bold fs-5">
+                <span>TOTAL:</span>
+                <span>S/ @Model.TotalVenta.ToString("N2")</span>
+            </div>
+            
+            <div class="d-flex justify-content-between text-muted" style="font-size: 0.85rem;">
+                <span>Pagado:</span>
+                <span>S/ @Model.MontoPagado?.ToString("N2")</span>
+            </div>
+            <div class="d-flex justify-content-between text-muted" style="font-size: 0.85rem;">
+                <span>Vuelto:</span>
+                <span>S/ @Model.Vuelto?.ToString("N2")</span>
+            </div>
+        </div>
+
+        <div class="text-center mt-4 mb-2">
+            <small>*** Gracias por su compra ***</small><br/>
+            <small>Conserve este ticket para cambios</small>
+        </div>
+    </div>
+
+</div>
+
+<div class="text-center mt-4 mb-5 no-print">
+    
+    <button onclick="window.print()" class="btn btn-secondary btn-lg me-2 shadow">
+        🖨 Imprimir Ticket
+    </button>
+    
+    @if (esVentaNueva)
+    {
+        <a asp-action="NuevaVenta" class="btn btn-success btn-lg me-2 shadow">
+            💰 Nueva Venta (F2)
+        </a>
+        <div class="mt-3 text-muted">
+            <small>✓ Venta registrada con éxito. Imprima o continúe.</small>
+        </div>
+    }
+    else
+    {
+        <a asp-action="Index" class="btn btn-primary btn-lg me-2">
+            Volver al Historial
+        </a>
+
+        <button type="button" class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#modalAnular">
+            🗑 Anular Venta
+        </button>
+    }
+</div>
+
+<div class="modal fade" id="modalAnular" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">⚠️ Confirmar Anulación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas anular la venta <strong>#@Model.IdVenta.ToString("D6")</strong>?</p>
+        <p class="text-danger fw-bold">Esta acción devolverá todos los productos al stock automáticamente.</p>
+        
+        <form asp-action="AnularVenta" method="post">
+            <input type="hidden" name="idVenta" value="@Model.IdVenta" />
+            <div class="text-end">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-danger">Sí, Anular Venta</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+    /* Estilo principal del contenedor del ticket */
+    .ticket-container {
+        width: 80mm; 
+        min-height: 100mm;
+        font-family: 'Courier New', Courier, monospace; 
+        border: 1px solid #ccc; /* Un borde simple en pantalla */
+        border-radius: 5px;
+    }
+    /* El hr lo usaremos para las divisiones en lugar de las clases con dashed */
+    hr {
+        border-top: 1px solid #000;
+        opacity: 0.5; /* Lo hacemos más suave */
+    }
+
+    @@media print {
+        @@page { margin: 0; size: auto; }
+        body * { visibility: hidden; }
+        #areaImpresion, #areaImpresion * { visibility: visible; }
+        #areaImpresion {
+            position: absolute; left: 0; top: 0; width: 100%;
+            padding: 5mm !important; box-shadow: none !important; border: none !important;
+        }
+        .no-print { display: none !important; }
+    }
+</style>

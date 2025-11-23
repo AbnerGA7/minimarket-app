@@ -1,0 +1,57 @@
+﻿@{
+    // El tipo viene del controlador (RETIRO o INGRESO)
+    string tipo = ViewBag.TipoMovimiento;
+    string titulo = (tipo == "RETIRO") ? "Retiro / Gasto de Caja" : "Ingreso Extra a Caja";
+    string color = (tipo == "RETIRO") ? "danger" : "success";
+
+    ViewData["Title"] = titulo;
+}
+
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card shadow-lg border-@color rounded-4 overflow-hidden">
+            <div class="card-header bg-@color text-white text-center py-3">
+                <h4 class="m-0 fw-bold">@titulo</h4>
+            </div>
+            <div class="card-body p-5">
+
+                @if (ViewData["MensajeError"] != null)
+                {
+                    <div class="alert alert-danger mb-4">
+                        @ViewData["MensajeError"]
+                    </div>
+                }
+
+                <p class="lead text-muted text-center">
+                    @(tipo == "RETIRO" ? "Registra un gasto o un retiro de fondo." : "Registra dinero que se añade al fondo.")
+                </p>
+
+                <form asp-action="GuardarMovimiento" method="post">
+
+                    <input type="hidden" name="tipoMovimiento" value="@tipo" />
+
+                    <div class="form-group mb-3">
+                        <label class="form-label fw-bold">Monto del Movimiento (S/)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-@color text-white">S/</span>
+                            <input type="number" name="monto" class="form-control form-control-lg text-end fw-bold" step="0.01" placeholder="0.00" required autofocus />
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="form-label">Observaciones (Concepto)</label>
+                        <textarea name="observaciones" class="form-control" rows="3" placeholder="@(tipo == "RETIRO" ? "Ej: Pago de luz" : "Ej: Añadir sencillo por la mañana...")" required></textarea>
+                        <small class="text-muted">Describe el motivo exacto.</small>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-@color btn-lg rounded-pill shadow-sm">
+                            💾 Confirmar @tipo
+                        </button>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary rounded-pill">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

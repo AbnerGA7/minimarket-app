@@ -1,0 +1,37 @@
+﻿@model MinimarketApp.Models.Usuario
+
+@{
+    ViewData["Title"] = "Desactivar Usuario";
+}
+
+<h1 class="text-danger">🚫 Dar de Baja a Usuario</h1>
+
+<h3>¿Estás seguro de desactivar el acceso a este empleado?</h3>
+<div class="alert alert-warning">
+    <strong>Nota:</strong> El usuario no podrá volver a iniciar sesión, pero su historial de ventas permanecerá intacto.
+</div>
+
+<div class="card shadow-sm mt-4" style="max-width: 600px;">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4 text-muted">Nombre Completo</dt>
+            <dd class="col-sm-8 fw-bold">@Html.DisplayFor(model => model.NombreCompleto)</dd>
+
+            <dt class="col-sm-4 text-muted">Usuario</dt>
+            <dd class="col-sm-8">@Html.DisplayFor(model => model.Username)</dd>
+
+            <dt class="col-sm-4 text-muted">Rol Actual</dt>
+            <dd class="col-sm-8">
+                <span class="badge bg-info text-dark">
+                    @Html.DisplayFor(model => model.IdRolNavigation.NombreRol)
+                </span>
+            </dd>
+        </dl>
+
+        <form asp-action="Delete" class="text-end mt-4">
+            <input type="hidden" asp-for="IdUsuario" />
+            <a asp-action="Index" class="btn btn-secondary me-2">Cancelar</a>
+            <button type="submit" class="btn btn-danger">Confirmar Baja</button>
+        </form>
+    </div>
+</div>

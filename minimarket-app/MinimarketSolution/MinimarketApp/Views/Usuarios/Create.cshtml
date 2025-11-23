@@ -1,0 +1,60 @@
+﻿@model MinimarketApp.Models.Usuario
+
+@{
+    ViewData["Title"] = "Registrar Usuario";
+}
+
+<h1>Registrar Nuevo Empleado</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <!-- NOMBRE COMPLETO -->
+                    <div class="form-group mb-3">
+                        <label asp-for="NombreCompleto" class="control-label">Nombre Completo</label>
+                        <input asp-for="NombreCompleto" class="form-control" placeholder="Ej: Juan Perez" />
+                        <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+                    </div>
+
+                    <!-- USUARIO -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Username" class="control-label">Usuario (para entrar)</label>
+                        <input asp-for="Username" class="form-control" placeholder="Ej: cajero1" />
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <!-- CONTRASEÑA -->
+                    <div class="form-group mb-3">
+                        <label asp-for="PasswordHash" class="control-label">Contraseña</label>
+                        <input asp-for="PasswordHash" class="form-control" type="password" />
+                        <span asp-validation-for="PasswordHash" class="text-danger"></span>
+                    </div>
+
+                    <!-- ROL -->
+                    <div class="form-group mb-3">
+                        <label asp-for="IdRol" class="control-label">Cargo / Rol</label>
+                        <select asp-for="IdRol" class="form-select" asp-items="ViewBag.IdRol"></select>
+                        <span asp-validation-for="IdRol" class="text-danger"></span>
+                    </div>
+
+                    <!-- BOTONES -->
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary">💾 Guardar Usuario</button>
+                        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -173,5 +173,68 @@ namespace MinimarketApp.Controllers
         {
             return _context.Lotes.Any(e => e.IdLote == id);
         }
+        // =============================================
+        // EXPORTAR INGRESOS DE MERCADERÍA A EXCEL
+        // =============================================
+        public async Task<IActionResult> ExportarExcelIngresos(DateTime? fecha)
+        {
+            // Si no eligen fecha, usamos HOY
+            DateTime fechaFiltro = fecha ?? DateTime.Today;
+
+            // Buscamos lotes cuya Fecha de Recepción coincida con el día seleccionado (ignorando hora)
+            var lotes = await _context.Lotes
+                .Include(l => l.IdProductoNavigation)
+                .Include(l => l.IdProveedorNavigation)
+                .Where(l => l.FechaRecepcion.HasValue && l.FechaRecepcion.Value.Date == fechaFiltro.Date)
+                .ToListAsync();
+
+            using (var workbook = new ClosedXML.Excel.XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Ingresos del Día");
+
+                // Cabecera Estilizada
+                var header = worksheet.Range("A1:G1");
+                header.Style.Font.Bold = true;
+                header.Style.Fill.BackgroundColor = ClosedXML.Excel.XLColor.ForestGreen;
+                header.Style.Font.FontColor = ClosedXML.Excel.XLColor.White;
+
+                worksheet.Cell(1, 1).Value = "N° Lote";
+                worksheet.Cell(1, 2).Value = "Producto";
+                worksheet.Cell(1, 3).Value = "Proveedor";
+                worksheet.Cell(1, 4).Value = "Vencimiento";
+                worksheet.Cell(1, 5).Value = "Cantidad";
+                worksheet.Cell(1, 6).Value = "Costo Unit.";
+                worksheet.Cell(1, 7).Value = "Inversión Total";
+
+                int row = 2;
+                foreach (var lote in lotes)
+                {
+                    worksheet.Cell(row, 1).Value = lote.NumeroLote;
+                    worksheet.Cell(row, 2).Value = lote.IdProductoNavigation?.Nombre;
+                    worksheet.Cell(row, 3).Value = lote.IdProveedorNavigation?.RazonSocial;
+                    worksheet.Cell(row, 4).Value = lote.FechaVencimiento.ToDateTime(TimeOnly.MinValue);
+                    worksheet.Cell(row, 5).Value = lote.CantidadInicial;
+
+                    worksheet.Cell(row, 6).Value = lote.CostoCompraUnitario;
+                    worksheet.Cell(row, 6).Style.NumberFormat.Format = "\"S/\" #,##0.00";
+
+                    // Cálculo del total invertido en ese lote
+                    decimal total = lote.CantidadInicial * lote.CostoCompraUnitario;
+                    worksheet.Cell(row, 7).Value = total;
+                    worksheet.Cell(row, 7).Style.NumberFormat.Format = "\"S/\" #,##0.00";
+
+                    row++;
+                }
+
+                worksheet.Columns().AdjustToContents();
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"Ingresos_{fechaFiltro:yyyyMMdd}.xlsx");
+                }
+            }
+        }
     }
 }

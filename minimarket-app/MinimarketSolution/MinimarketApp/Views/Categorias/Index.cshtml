@@ -4,36 +4,89 @@
     ViewData["Title"] = "Categorías";
 }
 
-<h1>Listado de Categorías</h1>
+<!-- ESTILOS PROPIOS -->
+<style>
+    .page-header {
+        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
 
-<p>
-    <a asp-action="Create" class="btn btn-success">Registrar Nueva Categoría</a>
-</p>
+    .btn-custom {
+        border-radius: 50px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        padding: 0.5rem 1.2rem;
+    }
 
-<table class="table table-hover table-bordered">
-    <thead class="thead-dark">
-        <tr>
-            <th class="text-center">Nombre</th>
-            <th class="text-center">Descripción</th>
-            <th class="text-center">Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-                <td class="text-center" style="width: 250px;">
-                    <a asp-action="Edit" asp-route-id="@item.IdCategoria" class="btn btn-primary btn-sm">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.IdCategoria" class="btn btn-info btn-sm">Detalles</a>
-                    <a asp-action="Delete" asp-route-id="@item.IdCategoria" class="btn btn-danger btn-sm">Eliminar</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    .table-card {
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    .table thead {
+        background-color: #f8f9fa;
+        color: #495057;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+</style>
+
+<!-- ENCABEZADO -->
+<div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="fw-bold mb-0">📦 Gestión de Categorías</h1>
+        <p class="mb-0 opacity-75">Administra las familias de productos</p>
+    </div>
+    <a asp-action="Create" class="btn btn-light text-primary btn-custom shadow-sm">
+        + Nueva Categoría
+    </a>
+</div>
+
+<!-- TABLA -->
+<div class="card table-card">
+    <div class="card-body p-0">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4 py-3">Nombre</th>
+                    <th class="py-3">Descripción</th>
+                    <th class="text-end pe-4 py-3">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="ps-4 fw-bold text-primary">
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td class="text-muted">
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td class="text-end pe-4">
+                            <div class="btn-group">
+                                <a asp-action="Edit" asp-route-id="@item.IdCategoria" class="btn btn-outline-primary btn-sm rounded-start-pill" title="Editar">
+                                    ✏️
+                                </a>
+                                <a asp-action="Details" asp-route-id="@item.IdCategoria" class="btn btn-outline-info btn-sm" title="Detalles">
+                                    ℹ️
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.IdCategoria" class="btn btn-outline-danger btn-sm rounded-end-pill" title="Eliminar">
+                                    🗑
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

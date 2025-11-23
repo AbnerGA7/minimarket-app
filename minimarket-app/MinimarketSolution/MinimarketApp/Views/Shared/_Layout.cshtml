@@ -1,62 +1,183 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+
+@{
+    // Obtener el nombre y el rol del usuario logueado
+    string userName = User.FindFirst(ClaimTypes.Name)?.Value ?? "";
+    string userRole = User.FindFirst(ClaimTypes.Role)?.Value ?? "";
+}
+
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MinimarketApp</title>
-    <script type="importmap"></script>
+    <!-- Usamos la versión local de Bootstrap 5 -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MinimarketApp.styles.css" asp-append-version="true" />
+
+    <style>
+        /* Estilo para el Navbar (Degradado que conecta con el Login) */
+        .navbar-custom {
+            background: linear-gradient(90deg, #2c3e50 0%, #4ca1af 100%);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+            .navbar-custom .nav-link, .navbar-custom .navbar-brand {
+                color: rgba(255, 255, 255, 0.9) !important;
+                font-weight: 500;
+                transition: color 0.3s ease;
+            }
+
+                .navbar-custom .nav-link:hover, .navbar-custom .navbar-brand:hover {
+                    color: #ffc107 !important; /* Amarillo para hover */
+                }
+
+        /* Estilos de los Dropdowns */
+        .dropdown-menu {
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .dropdown-item:hover {
+            background-color: #f0f0f0;
+            color: #2c3e50;
+        }
+
+        /* Estilos para el pie de página */
+        .footer {
+            background-color: #f8f9fa;
+        }
+
+        /* Estilos específicos que enviaste */
+        .navbar-brand {
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 1.4rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: rgba(255,255,255,0.9) !important;
+            transition: color 0.2s;
+        }
+
+            .nav-link:hover {
+                color: #ffc107 !important; /* Amarillo al pasar el mouse */
+            }
+
+        .user-badge {
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 50px;
+            padding: 5px 15px;
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MinimarketApp</a>
+<body class="bg-light">
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    @if (User.Identity!.IsAuthenticated)
+    {
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-dark navbar-custom mb-4">
+                <div class="container">
 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>
+                    <!-- LOGO / INICIO -->
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        🛒 MinimarketApp
+                    </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Categorias" asp-action="Index">Categorías</a>
-                        </li>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Productos" asp-action="Index">Productos</a>
-                        </li>
+                    <div class="collapse navbar-collapse" id="navbarNav">
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Proveedores" asp-action="Index">Proveedores</a>
-                        </li>
+                        <!-- MENÚ PRINCIPAL (TODOS LOS BOTONES EN EL ORDEN SOLICITADO) -->
+                        <ul class="navbar-nav me-auto">
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
-                        </li>
-                    </ul>
+                            <!-- 1. CATÁLOGO (Dropdown) -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    📦 Catálogo
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Categorias" asp-action="Index">Categorías</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Productos" asp-action="Index">Productos</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- 2. ALMACÉN (Dropdown) -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    🚚 Almacén
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-controller="Proveedores" asp-action="Index">Proveedores</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Lotes" asp-action="Index">Entrada de Stock</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- 3. CAJA (Directo) -->
+                            <li class="nav-item">
+                                <a class="nav-link fw-bold" asp-controller="Ventas" asp-action="NuevaVenta">
+                                    💰 Caja POS
+                                </a>
+                            </li>
+
+                            <!-- 4. REPORTES (Directo) -->
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Reportes" asp-action="Index">
+                                    📊 Reportes
+                                </a>
+                            </li>
+
+                            <!-- 5. ADMIN (Solo si es Administrador) -->
+                            @if (User.IsInRole("Administrador"))
+                            {
+                                <li class="nav-item border-start ms-2 ps-2">
+                                    <a class="nav-link text-warning" asp-controller="Usuarios" asp-action="Index">
+                                        ⚙️ Usuarios
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+
+                        <!-- LADO DERECHO: ZONA DE USUARIO -->
+                        <div class="d-flex align-items-center text-white user-badge">
+                            <div class="me-3 lh-1 text-end">
+                                <span class="d-block small opacity-75">Hola,</span>
+                                <span class="fw-bold">@User.Identity.Name</span>
+                            </div>
+                            <a asp-controller="Acceso" asp-action="Salir" class="btn btn-sm btn-outline-light rounded-circle" title="Salir">
+                                🚪
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+            </nav>
+        </header>
+    }
+
+    <div class="container pb-5">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - MinimarketApp by: Abner Gonzales - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    @if (User.Identity!.IsAuthenticated)
+    {
+        <footer class="border-top footer text-muted mt-auto py-3 bg-white">
+            <div class="container text-center">
+                <small>&copy; 2025 - MinimarketApp - Sistema de Gestión v2.0</small>
+            </div>
+        </footer>
+    }
+
+    <!-- Scripts de Bootstrap y jQuery (Necesarios para Dropdowns y Modals) -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

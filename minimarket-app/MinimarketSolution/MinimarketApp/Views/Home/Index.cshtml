@@ -1,73 +1,163 @@
-﻿@{
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Authorization
+
+@{
     ViewData["Title"] = "Panel Principal";
+
+    // KPIs cargados desde el Controlador
+    decimal ventasHoy = (decimal)ViewBag.VentasHoy;
+    int ticketsHoy = (int)ViewBag.TicketsHoy;
+    int agotados = (int)ViewBag.ProductosAgotados;
+    int bajoStock = (int)ViewBag.ProductosBajoStock;
+    int porVencer = (int)ViewBag.LotesPorVencer;
+    string estadoCaja = (string)ViewBag.EstadoCaja;
 }
 
-<div class="text-center mb-5">
-    <h1 class="display-4">Bienvenido al Sistema Minimarket</h1>
-    <p class="lead text-muted">Selecciona un módulo para comenzar a trabajar.</p>
-</div>
+<style>
+    /* Estilos para las tarjetas KPI */
+    .kpi-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 15px;
+        overflow: hidden;
+    }
 
-<div class="row">
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm border-primary">
-            <div class="card-header bg-primary text-white">
-                <h4 class="my-0 font-weight-normal">📦 Catálogo</h4>
-            </div>
-            <div class="card-body text-center">
-                <p class="card-text">Gestiona los productos y cómo se agrupan.</p>
-                <div class="d-grid gap-2">
-                    <a asp-controller="Categorias" asp-action="Index" class="btn btn-outline-primary btn-lg">
-                        Ver Categorías
-                    </a>
-                    <a asp-controller="Productos" asp-action="Index" class="btn btn-primary btn-lg">
-                        Ver Productos
-                    </a>
-                </div>
-            </div>
-        </div>
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+    .kpi-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0;
+        line-height: 1.2;
+    }
+
+    .quick-access-btn {
+        font-weight: 600;
+        border-radius: 50px;
+        padding: 0.6rem 1.5rem;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+    }
+</style>
+
+<!-- HEADER Y ESTADO DE CAJA -->
+<div class="row mb-5 align-items-center">
+    <div class="col-md-8">
+        <h1 class="display-5 fw-bold text-dark mb-1">Panel Operativo</h1>
+        <p class="lead text-muted">Resumen del negocio hasta @DateTime.Now.ToShortTimeString()</p>
     </div>
-
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm border-success">
-            <div class="card-header bg-success text-white">
-                <h4 class="my-0 font-weight-normal">🚚 Almacén</h4>
-            </div>
-            <div class="card-body text-center">
-                <p class="card-text">Control de proveedores y entrada de stock.</p>
-                <div class="d-grid gap-2">
-                    <a asp-controller="Proveedores" asp-action="Index" class="btn btn-outline-success btn-lg">
-                        Proveedores
-                    </a>
-                    <a asp-controller="Lotes" asp-action="Index" class="btn btn-success btn-lg">
-                        Entrada Mercadería
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-4 mb-4">
-        <div class="card h-100 shadow-sm border-secondary">
-            <div class="card-header bg-secondary text-white">
-                <h4 class="my-0 font-weight-normal">💰 Caja (POS)</h4>
-            </div>
-            <div class="card-body text-center">
-                <p class="card-text">Módulo de ventas y facturación.</p>
-                <div class="d-grid gap-2">
-                    <button type="button" class="btn btn-secondary btn-lg" disabled>
-                        Ir a la Caja
-                    </button>
-                    <small class="text-muted mt-2">(Próximamente)</small>
-                </div>
-            </div>
+    <div class="col-md-4 text-end">
+        @{
+            // Lógica de color para el estado de la caja
+            string cajaClase = estadoCaja == "CERRADA" ? "alert-success" : "alert-warning";
+            string cajaIcono = estadoCaja == "CERRADA" ? "🔒" : "🔓";
+        }
+        <div class="alert @cajaClase d-inline-block shadow-sm px-4 py-2 mb-0 rounded-pill">
+            <span class="fw-bold">Estado Caja:</span> @cajaIcono @estadoCaja
         </div>
     </div>
 </div>
 
-<div class="row mt-4">
-    <div class="col-12">
-        <div class="alert alert-info text-center">
-            <strong>📌 Nota:</strong> Recuerda revisar el <a asp-controller="Lotes" asp-action="Index" class="alert-link">Semáforo de Vencimientos</a> todos los días al iniciar turno.
+<!-- FILA 1: VENTAS Y ALERTAS CRÍTICAS -->
+<div class="row g-4 mb-5">
+
+    <!-- KPI 1: VENTA TOTAL DEL DÍA -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card kpi-card bg-primary text-white shadow">
+            <div class="card-body p-4">
+                <p class="m-0 small opacity-75">Venta Bruta (Hoy)</p>
+                <h2 class="kpi-value text-warning">S/ @ventasHoy.ToString("N2")</h2>
+                <small class="opacity-75">Total acumulado de tickets.</small>
+            </div>
         </div>
     </div>
+
+    <!-- KPI 2: TICKETS CREADOS -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card kpi-card bg-info text-white shadow">
+            <div class="card-body p-4">
+                <p class="m-0 small opacity-75">Tickets Emitidos</p>
+                <h2 class="kpi-value"># @ticketsHoy</h2>
+                <small class="opacity-75">Número de transacciones.</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI 3: Lotes Por Vencer (ALERTA CRÍTICA) -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card kpi-card bg-danger text-white shadow">
+            <div class="card-body p-4">
+                <p class="m-0 small opacity-75">Productos por Vencer (30 días)</p>
+                <h2 class="kpi-value">@porVencer Lotes</h2>
+                <a asp-controller="Lotes" asp-action="Index" class="text-white small fw-bold mt-2 d-block text-decoration-underline">Ver semáforo</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FILA 2: INVENTARIO Y ACCESOS RÁPIDOS -->
+<div class="row g-4 mb-5">
+
+    <!-- ACCESO RÁPIDO 1: BAJO STOCK -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card kpi-card bg-light shadow border-warning">
+            <div class="card-body p-4 text-center">
+                <h4 class="text-warning fw-bold">⚠️ @bajoStock Bajo Stock</h4>
+                <p class="small text-muted">Productos por debajo del nivel mínimo.</p>
+                <a asp-controller="Productos" asp-action="Index" class="btn btn-outline-warning quick-access-btn">Gestionar Stock</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACCESO RÁPIDO 2: AGOTADOS -->
+    <div class="col-md-6 col-lg-4">
+        <div class="card kpi-card bg-light shadow border-danger">
+            <div class="card-body p-4 text-center">
+                <h4 class="text-danger fw-bold">❌ @agotados Agotados</h4>
+                <p class="small text-muted">Productos sin stock real.</p>
+                <a asp-controller="Lotes" asp-action="Create" class="btn btn-outline-danger quick-access-btn">Registrar Compra</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACCESO RÁPIDO 3: CIERRE DE CAJA -->
+    <div class="col-md-12 col-lg-4">
+        <div class="card kpi-card bg-light shadow border-dark">
+            <div class="card-body p-4 text-center">
+                <h4 class="text-dark fw-bold">💰 Cierre de Caja</h4>
+                <p class="small text-muted">Cuadre de efectivo del turno.</p>
+                <a asp-controller="Caja" asp-action="Cierre" class="btn btn-dark quick-access-btn">Realizar Arqueo</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ZONA DE ADMINISTRACIÓN (SOLO ADMIN) -->
+@if (User.IsInRole("Administrador"))
+{
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-dark text-white border-0 rounded-3 p-4 shadow-lg">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div class="d-flex align-items-center">
+                        <span class="fs-1 me-3 text-warning">⚙️</span>
+                        <div>
+                            <h4 class="mb-0 fw-bold">Panel de Administración</h4>
+                            <small class="text-white-50">Gestión de usuarios y seguridad.</small>
+                        </div>
+                    </div>
+                    <a asp-controller="Usuarios" asp-action="Index" class="btn btn-light quick-access-btn px-4 text-dark">
+                        👥 Gestionar Personal
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<!-- AVISOS GENERALES -->
+<div class="mt-5 alert alert-light border-0 shadow-sm rounded-pill text-center">
+    📌 **Acceso Rápido:** Usa el menú superior para navegar a Catálogo o Reportes.
 </div>
